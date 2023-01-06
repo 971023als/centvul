@@ -24,7 +24,7 @@ BAR
 
  
 
-FILE=/etc/apache2/apache2.conf
+FILE=/etc/httpd/conf/httpd.conf
 
 TMP=/tmp/tmp1
 
