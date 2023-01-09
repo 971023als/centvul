@@ -1,5 +1,8 @@
 #!/bin/bash
 
+. functions.sh
+
+
 # 1) 변수 설정 및 초기화
 PermList=/root/scripts/perm.list # 점검 대상 파일 목록
 Result=/root/scripts/report2.txt # 점검 결과
@@ -37,6 +40,6 @@ OK "$FPermNum : $FName ($GoodPerm)" >> $Result
 fi
 fi
 done
-[출처] 프로젝트) Linux 서버 취약점 점검 스크립트 제작|작성자 takudaddy
+
 
  
