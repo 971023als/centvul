@@ -32,7 +32,8 @@ SHADOWFILE=/etc/shadow
 
 #SHADOWFILE=shadow
 
- CheckEncryptedPasswd() {
+ 
+CheckEncryptedPasswd() {
 SFILE=$1
 # $1$saltkey$encrypted 숫자들은 암호화 알고리즘의 종류
 # $2a$saltkey$encrypted
@@ -46,7 +47,6 @@ case $EncryptedPasswdField in
 	*) echo 'None' ;;
 esac
 }
-
  
 
 if [ -f $PASSFILE -a -f $SHADOWFILE ] ; then
