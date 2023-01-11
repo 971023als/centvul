@@ -20,52 +20,46 @@ EOF
 
 BAR
 
- 
 
-FILE1=/etc/motd
 
-FILE2=/etc/issue.net
-
- 
-
-FILESIZE=`ls -l $FILE1 | awk '{print $5}'`
-
- 
-
-if [ -n $FILESIZE ] ; then
-
-WARN 서버 로그온 메시지가 없습니다. 
-
-INFO $FILE1에 메시지를 추가하십시오.
-
+# Check if log on messages are not set for the server
+if [ ! -f /etc/motd ]; then
+    WARN "로그온 메시지가 서버에 대해 설정되지 않았습니다."
 else
-
-OK 서버 로으노 메시지가 있습니다.
-
+    OK "로그온 메시지가 서버에 대해 설정되어 있습니다."
 fi
 
- 
-
-cat $FILE2 | egrep 'CentOS release|Kernel' >/dev/null 2>&1
-
- 
-
-if [ $? -eq 0 ] ; then
-
-WARN Telnet 로그온 메시지를 변경하십시오.
-
-INFO $FILE2에 메시지를 변경하십시오.
-
+# Check if log on messages are not set for Telnet service
+if [ ! -f /etc/issue.net ]; then
+    WARN "로그온 메시지가 텔넷 서비스에 대해 설정되지 않았습니다."
 else
-
-OK Telnet 로그온 메시지가 있습니다.
-
+    OK "로그온 메시지가 텔넷 서비스에 대해 설정되어 있습니다."
 fi
 
- 
+# Check if log on messages are not set for FTP service
+if [ ! -f /etc/ftpbanner ]; then
+    WARN "로그온 메시지가 FTP 서비스에 대해 설정되지 않았습니다."
+else
+    OK "로그온 메시지가 FTP 서비스에 대해 설정되어 있습니다."
+fi
 
-echo >>$RESULT
+# Check if log on messages are not set for SMTP service
+if [ ! -f /etc/postfix/smtpd_banner ]; then
+    WARN "로그온 메시지가 SMTP 서비스에 대해 설정되지 않았습니다."
+else
+    OK "로그온 메시지가 SMTP 서비스에 대해 설정되어 있습니다."
+fi
 
-echo >>$RESULT
+# Check if log on messages are not set for DNS service
+if [ ! -f /etc/named.conf ]; then
+    WARN "로그온 메시지가 DNS 서비스에 대해 설정되지 않았습니다."
+else
+    OK "로그온 메시지가 DNS 서비스에 대해 설정되어 있습니다."
+fi
+
+
+cat $RESULT
+
+echo ; echo 
 
  
