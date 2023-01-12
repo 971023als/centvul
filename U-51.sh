@@ -39,12 +39,11 @@ unnecessary_groups=$(getent group | awk -F: '{if (!($1 in necessary_groups)) { p
 
 # Check if any unnecessary groups were found
 if [ -n "$unnecessary_groups" ]; then
-  echo "Error: Unnecessary groups were found: $unnecessary_groups"
-  exit 1
+  WARN "Error: 불필요한 그룹이 발견되었습니다. $unequired_groups"
 fi
 
 # If the script reaches this point, no unnecessary groups were found
-echo "No unnecessary groups were found"
+OK "불필요한 그룹을 찾을 수 없습니다."
 
 
 
