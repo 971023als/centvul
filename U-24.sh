@@ -25,6 +25,26 @@ EOF
 BAR
 
 
+# Check if the nfs daemon is enabled
+if systemctl is-enabled nfs-server.service; then
+    WARN "NFS 서버 데몬 사용"
+else
+    OK "NFS 서버 데몬 사용되지 않음"
+fi
+
+# Check if the nfslock daemon is enabled
+if systemctl is-enabled nfs-lock.service; then
+    WARN "NFS 잠금 데몬 사용"
+else
+    OK "NFS 잠금 데몬 사용되지 않음"
+fi
+
+# Check if the rpcbind daemon is enabled
+if systemctl is-enabled rpcbind.service; then
+    WARN "RPC 바인딩 데몬 사용"
+else
+    OK "RPC 바인딩 데몬 사용되지 않음"
+fi
 
 
  
