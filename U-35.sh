@@ -27,7 +27,7 @@ BAR
 
 
 # Set the Apache2 configuration file path
-config_file="/etc/apache2/apache2.conf"
+config_file="/etc/httpd/conf/httpd.conf"
 
 # Use grep to check if the directory listing is enabled in the configuration file
 Result=$(grep -E "^[ \t]*Options[ \t]+Indexes" $config_file)

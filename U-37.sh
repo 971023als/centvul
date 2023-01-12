@@ -26,7 +26,7 @@ BAR
 
 
 # Set the Apache2 Document Root directory to check
-dir_path=$(grep -E "^[ \t]*DocumentRoot[ \t]+" /etc/apache2/sites-enabled/* | awk '{print $2}')
+dir_path=$(grep -E "^[ \t]*DocumentRoot[ \t]+" /etc/httpd/conf/httpd.conf/sites-enabled/* | awk '{print $2}')
 
 # Use find command to check all files and directories within the given path 
 # and use stat command to check the move restriction bit

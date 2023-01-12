@@ -25,7 +25,7 @@ BAR
 
 
 # Set the Apache2 configuration file path
-config_file="/etc/apache2/apache2.conf"
+config_file="/etc/httpd/conf/httpd.conf"
 
 # Use grep to check if the FollowSymLinks and SymLinksIfOwnerMatch options are enabled in the configuration file
 symlink_result=$(grep -E "^[ \t]*Options[ \t]+FollowSymLinks" $config_file)
