@@ -25,11 +25,6 @@ EOF
 BAR
 
 
-# Check if the SMTP service is running
-service=`systemctl is-active postfix`
-if [ $service != "active" ]; then
-  INFO "SMTP 서비스가 실행되고 있지 않습니다."
-fi
 
 # Path to Postfix main configuration file
 CONF_FILE=/etc/postfix/main.cf

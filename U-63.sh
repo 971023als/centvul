@@ -34,15 +34,15 @@ fi
 
 # Check owner of the file
 if [ `stat -c '%U' $ftpusers_file` == "root" ]; then
-  WARN "ftp 사용자의 소유자는 루트입니다. 이것은 허용되지 않습니다."
+  WARN "ftp 사용자의 소유자는 루트입니다."
 fi
 
 # Check permission on the file
 if [ `stat -c '%a' $ftpusers_file` -lt 640 ]; then
-  WARN "ftp 사용자에 대한 권한이 640 미만입니다. 이것은 허용되지 않습니다."
+  WARN "ftp 사용자에 대한 권한이 640 미만입니다."
 fi
 
-OK "임의 사용자 파일이 있고 소유자와 권한이 예상대로입니다."
+OK "ftpusers 파일의 소유자가 root이고, 권한이 640 이하입니다."
  
 
 
