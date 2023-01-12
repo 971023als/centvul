@@ -25,11 +25,6 @@ EOF
 BAR
 
 
-if systemctl is-active --quiet nfs; then
-    WARN "불필요한 NFS 서비스가 실행 중입니다"
-else
-    OK "불필요한 NFS 서비스가 실행되고 있지 않습니다"
-fi
 
 
  

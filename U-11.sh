@@ -38,7 +38,7 @@ if [ "$file_perms" -lt 640 ]; then
 fi
 
 # If the script reaches this point, the ownership and permissions are correct
-OK "/etc/messages.conf에 올바른 소유권 및 사용 권한이 있음"
+OK "/etc/syslog.conff에 올바른 소유권 및 사용 권한이 있음"
 
 
 
