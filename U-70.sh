@@ -25,25 +25,27 @@ EOF
 BAR
 
 
-# Check if the noexpn option is not set
-result="telnet localhost 25 << EOF
-expn root
-EOF"
-if [[ $result == *"252"* ]]; then
-  WARN "noexpn 옵션이 설정되지 않았습니다."
-else
-  OK "noexpn 옵션이 설정되었습니다."
+# Check if the SMTP service is running
+service=`systemctl is-active postfix`
+if [ $service != "active" ]; then
+  INFO "SMTP 서비스가 실행되고 있지 않습니다."
 fi
 
-# Check if the novrfy option is not set
-result="telnet localhost 25 << EOF
-vrfy root
-EOF"
-if [[ $result == *"252"* ]]; then
-  WARN "novrfy 옵션이 설정되지 않았습니다."
+# Path to Postfix main configuration file
+CONF_FILE=/etc/postfix/main.cf
+
+# Check if 'smtpd_recipient_restrictions' is present in configuration file
+if grep -q "smtpd_recipient_restrictions" "$CONF_FILE"; then
+  # Check if 'noexpn' and 'novrfy' are not present
+  if ! grep -q "noexpn" "$CONF_FILE" && ! grep -q "novrfy" "$CONF_FILE"; then
+    WARN "noexpn 및 novrfy 옵션이 설정되지 않았습니다."
+  else
+    WARN "noexpn 및 novrfy 옵션이 설정되었습니다."
+  fi
 else
-  OK "novrfy 옵션이 설정되었습니다."
+  OK "구성 파일에서 esxd_disclusions를 찾을 수 없습니다."
 fi
+
 
 
     
