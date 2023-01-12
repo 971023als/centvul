@@ -25,7 +25,7 @@ EOF
 BAR
 
 
-ftpusers_file="/path/to/ftpusers"
+ftpusers_file="/etc/ftpusers"
 
 # Check if the file exists
 if [ ! -f $ftpusers_file ]; then
