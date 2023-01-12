@@ -28,9 +28,9 @@ BAR
 # Check if httpd process is running
 if pgrep -x "httpd" > /dev/null
 then
-    echo "아파치 데몬(httpd)이 실행 중입니다.."
+    INFO "아파치 데몬(httpd)이 실행 중입니다.."
 else
-    echo "아파치 데몬(httpd)이 실행되고 있지 않습니다.."
+    INFO "아파치 데몬(httpd)이 실행되고 있지 않습니다.."
 fi
 
 # Get the user and group of the httpd process
@@ -40,9 +40,9 @@ httpd_group=$(ps -o group= -p $(pgrep -x "httpd"))
 # Check if the httpd process is running as root
 if [[ $httpd_user == "root" || $httpd_group == "root" ]]
 then
-    echo "Apache 데몬(httpd)이 루트 권한으로 실행되고 있습니다"
+    WARN "Apache 데몬(httpd)이 루트 권한으로 실행되고 있습니다"
 else
-    echo "Apache 데몬(httpd)이 루트 권한으로 실행되고 있습니다"
+    OK "Apache 데몬(httpd)이 루트 권한으로 실행이 안되고 있습니다"
 fi
 
 
