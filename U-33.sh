@@ -28,9 +28,9 @@ DS=`dig +short @168.126.63.1 porttest.dns-oarc.net TXT | awk -Fis '{print $2}' |
 
 if [ $DS=GOOD -o GREAT ]
 	then
-		echo "    ==> [안전] DNS 보안 패치가 최신 버전입니다" 
+		OK "    ==> [안전] DNS 보안 패치가 최신 버전입니다" 
 	else
-		echo "    ==> [취약] DNS 보안 패치가 구 버전입니다" 
+		WARN "    ==> [취약] DNS 보안 패치가 구 버전입니다" 
 fi
 
 

@@ -32,7 +32,7 @@ max_age_weeks=$((max_age/7))
 
 # Check if the password maximum age is less than 12 weeks
 if [ "$max_age_weeks" -lt 12 ]; then
-  WARN "Error: 암호 최대 사용 기간이 12주 미만: $max_age_weeks"
+  WARN "암호 최대 사용 기간이 12주 미만: $max_age_weeks"
 fi
 
 # If the script reaches this point, the password maximum age is greater than or equal to 12 weeks

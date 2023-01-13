@@ -28,8 +28,7 @@ BAR
 
 AM=`ps -ef | grep 'automount\|autofs' | sed '$d'`
 
-if [ $AM ]
-	then
+if [ "$AM" ]; then
 		WARN "   ==> [취약] NFS 서비스가 동작 중입니다." 
 
 else

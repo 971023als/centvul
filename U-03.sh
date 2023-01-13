@@ -26,11 +26,11 @@ BAR
 
 
 # Check if account lock threshold is set in /etc/pam.d/common-auth
-if ! grep -q "auth required pam_tally2.so" /etc/pam.d/common-auth; then
+if ! grep -q "auth required pam_tally2.so" /etc/pam.d/system-auth; then
     WARN "계정 잠금 임계값이 /etc/pam.d/common-auth에서 설정되지 않았습니다."
 else
     # Check if account lock threshold is less than 10
-    if grep -q "auth required pam_tally2.so deny=10" /etc/pam.d/common-auth; then
+    if grep -q "auth required pam_tally2.so deny=10" /etc/pam.d/system-auth; then
         WARN "계정 잠금 임계값이 10 미만으로 설정됨"
     fi
 fi

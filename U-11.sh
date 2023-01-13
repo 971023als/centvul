@@ -26,13 +26,13 @@ BAR
 
 
 # Check the ownership of the file
-file_owner=$(stat -c %U /etc/syslog.conf)
+file_owner=$(stat -c %U /etc/rsyslog.conf)
 if [[ "$file_owner" != "root" && "$file_owner" != "bin" && "$file_owner" != "sys" ]]; then
   WARN "Error: /etc/syslog.conf가 루트(또는 bin, sys)에 의해 소유되지 않습니다."
 fi
 
 # Check the permissions of the file
-file_perms=$(stat -c %a /etc/syslog.conf)
+file_perms=$(stat -c %a /etc/rsyslog.conf)
 dec_perms=$(printf "%d" $file_perms)
 if [ $dec_perms -lt 640 ]; then
     WARN "/etc/syslog.conf에 대한 사용 권한은 안전하지 않습니다"

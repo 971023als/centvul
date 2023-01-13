@@ -39,7 +39,7 @@ fi
 if [[ "$path" =~ :\. ]]; then
     WARN "Dangerous '.' 이 PATH 변수의 중간에서 발견되었습니다."
 fi
-OK "PATH 변수는 안전합니다.."
+OK "PATH 변수는 안전합니다."
 
 
  
