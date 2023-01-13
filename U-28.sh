@@ -25,23 +25,18 @@ EOF
 BAR
 
 
-ps -ef | egrep "ypserv|ypbind|ypxfrd|rpc.yppasswdd|rpc.ypupdated" | grep -v grep | awk '{print $2,$6}'> $TMP
+TMP=$(mktemp)
+ps -ef | egrep "ypserv|ypbind|ypxfrd|rpc.yppasswdd|rpc.ypupdated" | grep -v grep | awk '{print $2,$6}' > "$TMP"
 
- 
-
-if [ -n $TMP ] ; then
-
-OK NIS 서비스가 비활성화 되어있습니다.
-
+if [ -s "$TMP" ] ; then
+    while read PID PROCESS
+    do
+        WARN "$PID / $PROCESS가 실행 중입니다."
+    done < "$TMP"
 else
+    OK "NIS 서비스가 비활성화되었습니다."
+fi
 
-cat $TMP | while read PID PROCESS
-
-do
-
-WARN $PID / $PROCESS 가 구동중 입니다. 
-
-done
 
 
 
@@ -49,8 +44,3 @@ done
 cat $result
 
 echo ; echo
- 
-
-
-
- 

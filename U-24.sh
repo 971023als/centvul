@@ -25,7 +25,7 @@ EOF
 BAR
 
 
-NC=ps -ef | egrep "nfs|statd|lockd" | grep -v kblock
+NC='ps -ef | egrep "nfs|statd|lockd" | grep -v kblock'
 
 if [ -n "$NC" ]; then
 WARN " ==> [취약] NFS 서비스가 동작 중입니다."
