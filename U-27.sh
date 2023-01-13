@@ -11,7 +11,7 @@ TMP1=`SCRIPTNAME`.log
 
 BAR
 
-CODE [U-27]  RPC 서비스 확인 '확인 필요'
+CODE [U-27]  RPC 서비스 확인 
 
 cat << EOF >> $result
 
@@ -24,13 +24,8 @@ EOF
 
 BAR
 
- 
 
-if systemctl is-active --quiet rpcbind; then
-    WARN "불필요한 RPC 서비스가 실행 중입니다"
-else
-    OK "불필요한 RPC 서비스가 실행되고 있지 않습니다"
-fi
+
 
 
  

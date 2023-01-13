@@ -26,10 +26,14 @@ BAR
 
  
 
-if systemctl is-active --quiet automount; then
-    WARN "automountd 실행 중입니다"
+AM=`ps -ef | grep 'automount\|autofs' | sed '$d'`
+
+if [ $AM ]
+	then
+		WARN "   ==> [취약] NFS 서비스가 동작 중입니다." 
+
 else
-    OK "automountd 실행되고 있지 않습니다"
+	OK "   ==> [안전] NFS 서비스가 동작 중이지 않습니다." 
 fi
 
 
