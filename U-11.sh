@@ -33,7 +33,7 @@ fi
 
 # Check the permissions of the file
 file_perms=$(stat -c %a /etc/syslog.conf)
-if [ $(expr $file_perms) -lt 640 ]; then
+if [ "$file_perms" -lt "640" ]; then
     WARN "/etc/syslog.conf에 대한 사용 권한은 안전하지 않습니다"
 else
     OK "/etc/syslog.conf에 대한 사용 권한은 안전합니다"
