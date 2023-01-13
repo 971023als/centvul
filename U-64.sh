@@ -26,8 +26,6 @@ BAR
 
 
 
-# check if the vsftpd service is active
-
 FILE=/etc/vsftpd/ftpusers
 
  
@@ -39,8 +37,6 @@ ps -ef | grep vsftpd | grep -v grep >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
 
 OK FTP 서비스가 비활성화 되어 있습니다. 
-
-exit 1
 
 else
 
