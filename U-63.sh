@@ -35,7 +35,7 @@ fi
 # Check owner of the file
 owner=$(stat -c '%U' $ftpusers_file)
 
-if [ $owner -eq "root" ]; then
+if [[ $owner == "root" ]]; then
     OK "root가 users 파일을 소유하고 있습니다."
 else
     WARN "root가 users 파일을 소유하고 있지 않습니다."
