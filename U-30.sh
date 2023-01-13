@@ -26,18 +26,15 @@ EOF
 BAR
 
 
-if command -v sendmail >/dev/null; then
-  # Get the current version of Sendmail
-  version=$(sendmail -d0.1 -bv | grep "^Version" | awk '{print $2}')
+SI=`yum list installed | grep sendmail | awk '{print $1}'`
 
-  # Check if the version is less than a specified minimum version
-  if [[ "$(printf '%s\n' "$version" "$minimum_version" | sort -V | head -n1)" == "$version" ]]; then
-    WARN "Error: 발송 메일 버전이 최신 버전이 아닙니다. 설치된 버전: $version. 최소 허용 버전: $minimum_version"
-  else
-    OK "Sendmail 버전이 최신입니다. 설치된 버전: $version"
-  fi
-else
-  WARN "Sendmail이 시스템에 설치되어 있지 않습니다."
+if [ $SI ]
+	then
+		SV=`echo \$Z | /usr/lib/sendmail -bt -d0 | sed -n '1p' | awk '{print $2}'`
+		OK "    [OOOO] 설치된 sendmail의 버전은 $SV 입니다" 
+		OK "    ==> [권장] 최신 버전의 설치 및 업그레이드를 위해 sendmail 데몬의 중지가 필요하기 때문에 적절한 시간대에 수행해야 함" 
+	else
+		WARN "    [XXXX] sendmail이 설치되어 있지 않습니다 " 
 fi
 
 

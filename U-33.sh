@@ -24,20 +24,13 @@ EOF
 BAR
 
 
-# Check if the DNS service is running
-if systemctl is-active --quiet named.service; then
-    WARN "DNS 서비스가 실행 중"
-    # Get the version of bind
-    version=$(named -v | awk '{print $3}' | sed 's/[^0-9.]*//g')
-    INFO "설치된 바인드 버전: $version"
-    # Check if the version is vulnerable
-    if [[ "$version" == "8.4.6" || "$version" == "8.4.7" || "$version" == "9.2.8-P1" || "$version" == "9.3.4-P1" || "$version" == "9.4.1-P1" || "$version" == "9.5.0a6" ]]; then
-        OK "DNS 서비스가 취약하지 않은 버전을 사용하고 있습니다."
-    else
-        WARN "DNS 서비스가 취약한 버전을 사용하고 있습니다. 취약하지 않은 버전으로 업데이트하는 것을 고려하십시오."
-    fi
-else
-    OK "DNS 서비스가 실행되고 있지 않습니다."
+DS=`dig +short @168.126.63.1 porttest.dns-oarc.net TXT | awk -Fis '{print $2}' | awk -F: {'print $1'} | sed '1d' | awk '{print $1}'`
+
+if [ $DS=GOOD -o GREAT ]
+	then
+		echo "    ==> [안전] DNS 보안 패치가 최신 버전입니다" 
+	else
+		echo "    ==> [취약] DNS 보안 패치가 구 버전입니다" 
 fi
 
 
