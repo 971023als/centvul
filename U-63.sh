@@ -38,7 +38,8 @@ if [ `stat -c '%U' $ftpusers_file` == "root" ]; then
 fi
 
 # Check permission on the file
-if [ `stat -c '%a' $ftpusers_file` -lt 640 ]; then
+
+if [[ `stat -c '%a' $ftpusers_file` -lt 640 ]]; then
   WARN "ftp 사용자에 대한 권한이 640 미만입니다."
 fi
 

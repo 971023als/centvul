@@ -27,6 +27,7 @@ BAR
 
 
 # check if the vsftpd service is active
+
 if ! systemctl is-active --quiet vsftpd; then
     WARN "FTP 서비스가 활성화되지 않았습니다."
 else

@@ -27,7 +27,7 @@ BAR
 
 
 # Set the Apache2 configuration file path
-config_file="/etc/apache2/sites-enabled/*"
+config_file="/etc/httpd/conf/httpd.conf/sites-enabled/*"
 
 # Use grep to check if the DocumentRoot directive is defined in the configuration file
 Result=$(grep -E "^[ \t]*DocumentRoot[ \t]+" $config_file)
