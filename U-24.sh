@@ -25,14 +25,12 @@ EOF
 BAR
 
 
-NC=`ps -ef | egrep "nfs|statd|lockd" | sed '$d' | grep -v kblock`
+NC=ps -ef | egrep "nfs|statd|lockd" | grep -v kblock
 
-if [ $NC ]
-	then
-		WARN "   ==> [취약] NFS 서비스가 동작 중입니다." 
-
+if [ -n "$NC" ]; then
+WARN " ==> [취약] NFS 서비스가 동작 중입니다."
 else
-	OK "   ==> [안전] NFS 서비스가 동작 중이지 않습니다." 
+OK " ==> [안전] NFS 서비스가 동작 중이지 않습니다."
 fi
 
 

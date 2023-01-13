@@ -24,23 +24,35 @@ EOF
 
 BAR
 
-# Check if the DNS service is running
-if ! systemctl is-active --quiet named; then
-  WARN "Error: DNS service (named)가 실행되고 있지 않습니다."
+
+# Check if named.conf file exists
+if [ -f /etc/named.conf ]; then
+    WARN "name.conf 파일 발견"
+    # Check if the allow-transfer option is set in the primary zone
+    primary_zone=$(grep -i 'type master' /etc/named.conf | awk '{print $2}')
+    if grep -q "allow-transfer" "$primary_zone"; then
+        WARN "allow-transfer 옵션이 기본 영역에서 설정됨"
+        # Check if the allow-transfer option is set to a specific IP address or IP range
+        transfer_ip=$(grep -i 'allow-transfer' "$primary_zone" | awk '{print $2}')
+        if [[ $transfer_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
+            OK "allow-transfer가 특정 IP 주소 또는 IP 범위로 설정됨: $transfer_ip"
+        else
+            WARN "allow-transfer가 특정 IP 주소 또는 IP 범위로 설정되지 않았습니다. 영역 전송이 안전하지 않습니다"
+        fi
+    else
+        WARN "allow-transfer 옵션이 기본 영역에서 설정되지 않았습니다. 영역 전송이 안전하지 않습니다"
+    fi
+    # Check if the secondary zone has the allow-transfer option
+    secondary_zone=$(grep -i 'type slave' /etc/named.conf | awk '{print $2}')
+    if grep -q "allow-transfer" "$secondary_zone"; then
+        WARN "allow-transfer 옵션이 보조 영역에 설정되어 있으며, 영역 전송이 안전하지 않습니다"
+    else
+        WARN "allow-transfer 옵션이 보조 영역에서 설정되지 않았습니다. 영역 전송이 허용되지 않습니다."
+    fi
+else
+    OK "name.conf 파일을 찾을 수 없습니다"
 fi
 
-# Check if zone transfers are allowed for any hosts
-if ! grep -q "allow-transfer" /etc/named.conf; then
-  WARN "Error: Zone transfers가 어떤 호스트에도 허용되지 않습니다."
-fi
-
-# Check if zone transfers are allowed for all hosts
-if ! grep -q "allow-transfer { any; };" /etc/named.conf; then
-  WARN "Error: Zone transfers가 일부 호스트에 대해 영역 전송이 허용되지 않음"
-fi
-
-# If the script reaches this point, zone transfers are allowed for all hosts
-OK "모든 호스트에 대해 영역 전송이 허용됨"
 
 
 

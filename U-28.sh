@@ -25,16 +25,23 @@ EOF
 BAR
 
 
-if systemctl is-active --quiet nis.service; then
-    WARN "nis 서비스가 실행 중입니다"
-    if grep -q "NISPLUS" /etc/yp.conf; then
-        OK "더 강력한 데이터 인증을 가진 NIS+ 사용"
-    else
-        WARN "NIS 사용, 더 강력한 데이터 인증으로 NIS+ 사용 고려"
-    fi
+ps -ef | egrep "ypserv|ypbind|ypxfrd|rpc.yppasswdd|rpc.ypupdated" | grep -v grep | awk '{print $2,$6}'> $TMP
+
+ 
+
+if [ -n $TMP ] ; then
+
+OK NIS 서비스가 비활성화 되어있습니다.
+
 else
-    OK "nis 서비스가 실행되고 있지 않습니다"
-fi
+
+cat $TMP | while read PID PROCESS
+
+do
+
+WARN $PID / $PROCESS 가 구동중 입니다. 
+
+done
 
 
 

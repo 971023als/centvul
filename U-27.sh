@@ -24,22 +24,18 @@ EOF
 
 BAR
 
-services=("sadmin" "rpc.*" "rquotad" "shell" "login" "exec" "talk" "time" "discard" "chargen" "printer" "uucp" "echo" "daytime" "dtscpt" "finger")
 
-for service in "${services[@]}"
-do
-    if systemctl is-active --quiet "$service.service"; then
-        WARN "$service 서비스 중지"
-        systemctl stop "$service.서비스"
-    else
-        OK "$service 서비스가 실행되고 있지 않습니다."
-    fi
+#!/bin/bash
+services=("rpc.cmsd" "rpc.ttdbserverd" "sadmin" "rusersd" "walld" "sprayd" "rstatd" "rpc.nisd" "rexd" "rpc.pcnfsd" "rpc.statd" "rpc.ypupdated" "rpc.requotad" "kcms_server" "cachefsd")
+
+for service in "${services[@]}"; do
+  if service $service status; then
+    WARN "$service 서비스가 활성"
+  else
+    OK "$service 서비스가 활성화되지 않았습니다."
+  fi
 done
 
-
-
-
- 
 
 cat $result
 

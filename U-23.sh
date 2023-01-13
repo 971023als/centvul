@@ -35,7 +35,7 @@ WARN $i 파일에 대한 서비스가 활성화 되어 있습니다.
 fi
 done
 fi
-LINE
+
 
 ls /etc/xinetd.d/discard* >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
@@ -51,7 +51,7 @@ WARN $i 파일에 대한 서비스가 활성화 되어 있습니다.
 fi
 done
 fi
-LINE
+
 
 ls /etc/xinetd.d/daytime* >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
@@ -67,7 +67,7 @@ WARN $i 파일에 대한 서비스가 활성화 되어 있습니다.
 fi
 done
 fi
-LINE
+
 
 ls /etc/xinetd.d/chargen* >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
