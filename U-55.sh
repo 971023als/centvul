@@ -31,15 +31,17 @@ if [ ! -f /etc/hosts.lpd ]; then
 fi
 
 hosts=$(stat -c '%U' /etc/hosts.lpd)
+dec_perms=$(printf "%d" $hosts)
 
-if [ $hosts = "root" ]; then
+if [ $dec_perms = "root" ]; then
   WARN "Owner of hosts.lpd의 소유자는 루트입니다. 이것은 허용되지 않습니다."
 fi
 
 # Check permission on the file
-hosts=$(stat -c '%a' /etc/hosts.lpd)
+host=$(stat -c '%a' /etc/hosts.lpd)
+dec_perm=$(printf "%d" $host)
 
-if [ $hosts = "600" ]; then
+if [ $dec_perm = "600" ]; then
   WARN  "hosts.lpd에 대한 권한이 600으로 설정되었습니다. 이것은 허용되지 않습니다."
 fi
 

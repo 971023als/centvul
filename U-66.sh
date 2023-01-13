@@ -26,11 +26,20 @@ EOF
 BAR
 
 
-# check if the snmp service is active
-if systemctl is-active --quiet snmpd; then
-    WARN "SNMP 서비스가 활성되어 있습니다"
+ps -ef | grep snmp | grep -v grep >/dev/null 2>&1
+
+ 
+
+if [ $? -eq 0 ] ; then
+
+WARN SNMP 서비스를 사용하고 있습니다. 
+
+# service snmpd stop
+
 else
-    OK "SNMP 서비스가 활성화되지 않았습니다."
+
+OK SNMP 서비스를 사용하지 않고 있습니다.
+
 fi
 
 cat $result

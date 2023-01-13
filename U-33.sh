@@ -25,26 +25,21 @@ BAR
 
 
 # Check if the DNS service is running
-if ! systemctl is-active --quiet named; then
-  WARN "Error: DNS 서비스가 실행되고 있지 않습니다."
+if systemctl is-active --quiet named.service; then
+    WARN "DNS 서비스가 실행 중"
+    # Get the version of bind
+    version=$(named -v | awk '{print $3}' | sed 's/[^0-9.]*//g')
+    INFO "설치된 바인드 버전: $version"
+    # Check if the version is vulnerable
+    if [[ "$version" == "8.4.6" || "$version" == "8.4.7" || "$version" == "9.2.8-P1" || "$version" == "9.3.4-P1" || "$version" == "9.4.1-P1" || "$version" == "9.5.0a6" ]]; then
+        OK "DNS 서비스가 취약하지 않은 버전을 사용하고 있습니다."
+    else
+        WARN "DNS 서비스가 취약한 버전을 사용하고 있습니다. 취약하지 않은 버전으로 업데이트하는 것을 고려하십시오."
+    fi
+else
+    OK "DNS 서비스가 실행되고 있지 않습니다."
 fi
 
-# Get the version of the currently running DNS service
-version=$(named -v | awk '{print $4}')
-
-# Check if the version is less than a specified minimum version
-if [[ "$(printf '%s\n' "$version" "$minimum_version" | sort -V | head -n1)" == "$version" ]]; then
-  WARN "Error: DNS 서비스(이름 지정) 버전이 최신 버전이 아닙니다. 설치된 버전: $version. 최소 허용 버전: $minimum_version"
-fi
-
-# Check if there are any available updates for the DNS service
-updates=$(yum check-update bind)
-if [ -n "$updates" ]; then
-  WARN "Error: DNS 서비스에 사용할 수 있는 업데이트가 있습니다. 최신 패치로 업데이트하십시오"
-fi
-
-# If the script reaches this point, the DNS service is running and up to date
-OK "DNS 서비스(이름 지정)가 실행 중이며 최신 상태입니다. 설치된 버전: $version"
 
 
 cat $result

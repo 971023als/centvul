@@ -25,12 +25,17 @@ EOF
 BAR
 
 
-# Check if the ypbind daemon is enabled
-if systemctl is-enabled ypbind.service; then
-    OK "NIS 서비스 사용"
+if systemctl is-active --quiet nis.service; then
+    WARN "nis 서비스가 실행 중입니다"
+    if grep -q "NISPLUS" /etc/yp.conf; then
+        OK "더 강력한 데이터 인증을 가진 NIS+ 사용"
+    else
+        WARN "NIS 사용, 더 강력한 데이터 인증으로 NIS+ 사용 고려"
+    fi
 else
-    WARN "NIS 서비스 사용되지 않음"
+    OK "nis 서비스가 실행되고 있지 않습니다"
 fi
+
 
 
 

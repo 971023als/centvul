@@ -27,13 +27,15 @@ BAR
 
 ftpusers_file="/etc/vsftpd/ftpusers"
 
+dec_perms=$(printf "%d" $ftpusers_file)
+
 # Check if the file exists
 if [ ! -f $ftpusers_file ]; then
   WARN "ftpusers 파일이 없습니다. 확인해주세요."
 fi
 
 # Check owner of the file
-if [ `stat -c '%U' $ftpusers_file` == "root" ]; then
+if [ `stat -c '%U' $dec_perms` == "root" ]; then
   WARN "ftp 사용자의 소유자는 루트입니다."
 fi
 

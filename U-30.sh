@@ -27,7 +27,7 @@ BAR
 
 
 # Get the current version of Sendmail
-version=$(sendmail -bt < /dev/null | grep -i version | awk '{print $4}')
+version=$(sendmail -d0.1 -bv | grep "^Version" | awk '{print $2}')
 
 # Check if the version is less than a specified minimum version
 if [[ "$(printf '%s\n' "$version" "$minimum_version" | sort -V | head -n1)" == "$version" ]]; then
