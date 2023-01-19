@@ -34,8 +34,9 @@ BAR
 file_owner=$(stat -c %U /etc/hosts.equiv)
 if [[ "$file_owner" != "root" && "$file_owner" != "$(whoami)" ]]; then
   WARN "/etc/hosts.equiv가 루트 또는 $(whoami)에 의해 소유되지 않습니다."
+else
+  OK "/etc/hosts.equiv가 루트 또는 $(whoami)에 의해 소유되어 있습니다."
 fi
-OK "/etc/hosts.equiv가 루트 또는 $(whoami)에 의해 소유되어 있습니다."
 
 # Check the permissions of the /etc/hosts.equiv file
 file_perms=$(stat -c %a /etc/hosts.equiv)
@@ -84,9 +85,6 @@ else
   OK "$HOME/.rhosts에 '+' 설정이 있습니다."
 fi
 
-
-# If the script reaches this point, the ownership, permissions, and the '+' setting are correct
-OK "/etc/hosts.equiv 및 $HOME/.rhosts에 올바른 소유권, 사용 권한 및 '+' 설정이 있습니다."
 
 
  

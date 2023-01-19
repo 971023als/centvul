@@ -21,8 +21,6 @@ EOF
 
 BAR
 
-
-#!/bin/bash
 services=("rpc.cmsd" "rpc.ttdbserverd" "sadmin" "rusersd" "walld" "sprayd" "rstatd" "rpc.nisd" "rexd" "rpc.pcnfsd" "rpc.statd" "rpc.ypupdated" "rpc.requotad" "kcms_server" "cachefsd")
 
 for service in "${services[@]}"; do
