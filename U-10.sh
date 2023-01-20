@@ -28,13 +28,13 @@ BAR
 # Check the ownership of the file
 file_owner=$(stat -c %U /etc/xinetd.conf)
 if [ "$file_owner" != "root" ]; then
-  WARN "Error: /etc/inetd.conf가 루트에 의해 소유되지 않음"
+  WARN " /etc/inetd.conf가 루트에 의해 소유되지 않음"
 fi
 
 # Check the permissions of the file
 file_perms=$(stat -c %a /etc/xinetd.conf)
 if [ "$file_perms" != "600" ]; then
-  WARN "Error: /etc/inetd.conf에 잘못된 사용 권한이 있습니다. 600이어야 합니다"
+  WARN " /etc/inetd.conf에 잘못된 사용 권한이 있습니다. 600이어야 합니다"
 fi
 
 # If the script reaches this point, the ownership and permissions are correct

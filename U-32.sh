@@ -54,7 +54,7 @@ else
 
 WARN 일반 사용자의 Sendmail 실행 방지가 설정 되어 있지 않습니다.
 
-INFO $FILE1 의 PrivacyOtions에 restrictqrun 옵션을 추가하십시오.
+INFO $FILE 의 PrivacyOtions에 restrictqrun 옵션을 추가하십시오.
 
 fi
 

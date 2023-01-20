@@ -35,12 +35,12 @@ if test -f /etc/xinetd.d/rlogin
 	then
 		if [ "`cat /etc/xinetd.d/rlogin | grep disable | awk '{print $3}'`" = yes ]
 			then
-				OK " [안전] rlogin 서비스가 설치되어 있으나 비활성화 되어 있습니다" 
+				OK "rlogin 서비스가 설치되어 있으나 비활성화 되어 있습니다" 
 			else
-				WARN " [취약] rlogin 서비스가 설치되어 있고, 활성화 되어 있습니다" 
+				WARN "rlogin 서비스가 설치되어 있고, 활성화 되어 있습니다" 
 		fi
 	else
-		OK " [안전] rlogin 서비스가 설치되어 있지 않습니다" 
+		OK "rlogin 서비스가 설치되어 있지 않습니다" 
 fi
 
 

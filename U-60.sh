@@ -32,7 +32,7 @@ log_file="/var/log/auth.log"
 
 # Check if the log file exists
 if [ ! -f $log_file ]; then
-    OK "Auth log file is not found"
+    OK "인증 로그 파일을 찾을 수 없습니다"
 else
     # Use grep command to search for Telnet or FTP in the log file
     telnet_count=$(grep -E "telnetd" $log_file | wc -l)
