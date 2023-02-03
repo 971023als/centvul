@@ -25,15 +25,10 @@ EOF
 
 BAR
 
-
-# Use the umask command to check the current umask value
-current_umask=$(umask)
-
-# Compare the current umask value to 022 or higher
-if [[ "$current_umask" -ge 22 ]]; then
-    OK "UMASK 값이 022 이상으로 설정됨"
+if grep -q "umask 022" /etc/profile; then
+  OK "umask 022가 /etc/profile에 있습니다."
 else
-    WARN "UMASK 값이 022 이상으로 설정되지 않음"
+  WARN "umask 022가 /etc/profile에 없습니다."
 fi
 
 
