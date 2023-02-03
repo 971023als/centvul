@@ -26,21 +26,25 @@ EOF
 BAR
 
  
+INFO "iptables 규칙 표시:"
+iptables -S
 
-cat /etc/hosts.deny | grep -v '^#' | grep 'ALL: ALL' > /dev/null 2>&1
+INFO "특정 규칙에 대한 입력 체인 확인"
+iptables -C INPUT -p tcp --dport 22 -j ACCEPT
+if [ $? -eq 0 ]; then
+    OK "수신 SSH 트래픽(포트 22)을 허용하는 규칙이 INPUT 체인에 있습니다"
+  else
+    WARN "수신 SSH 트래픽(포트 22)을 허용하는 규칙이 INPUT 체인에 없습니다"
+  fi
 
- 
+INFO "특정 규칙에 대한 출력 체인 확인"
+iptables -C OUTPUT -p tcp --dport 80 -j ACCEPT
 
-if [ $? -eq 0 ] ; then
-
-OK /etc/hosts.deny 파일에 ALL Deny 설정이 되어 있습니다.
-
-else
-
-WARN /etc/hosts.deny 파일에 ALL Deny 설정이 되어 있지 않습니다. 
-
-INFO /etc/hosts.deny , /etc/hosts.allow 설정을 확인하십시오. 
-
+if [ $? -eq 0 ]; then
+    OK "출력 체인에 발신 HTTP 트래픽(포트 80)을 허용하는 규칙이 있습니다"
+  else
+    WARN "출력 체인에 발신 HTTP 트래픽(포트 80)을 허용하는 규칙이 없습니다"
+  fi
 fi
 
  

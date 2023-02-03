@@ -38,7 +38,7 @@ netstat -antp | grep ftp | awk '{print $7}' | awk -F: '{print $1}' | awk -F/ '{p
 
 if [ $? -eq 0 ] ; then 
 
-WARN 'FTP 서비스가 존재합니다'
+INFO 'FTP 서비스가 존재합니다'
 
 pgrep -lf vsftpd > vsftpd.pid
 
