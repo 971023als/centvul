@@ -24,17 +24,23 @@ EOF
 BAR
 
 
-# check if the file is not owned by root or bin or sys
-if [ $(stat -c "%U" /etc/services) == "root" ] || [ $(stat -c "%U" /etc/services) == "bin" ] || [ $(stat -c "%U" /etc/services) == "sys" ]; then
-    WARN "/etc/services 파일은 루트 또는 bin 또는 sys에 의해 소유됩니다."
-fi
+# 파일이 있는지 확인하십시오
+if [ -e "/etc/services" ]; then
 
-# check if the file permissions are not 644
-if [ $(stat -c "%a" /etc/services) -gt 644 ]; then
-    WARN "/etc/services 파일의 권한이 644보다 큽니다."
-fi
+# 파일 소유권 확인
+    if [ $(stat -c "%U" /etc/services) == "root" ] || [ $(stat -c "%U" /etc/services) == "bin" ] || [ $(stat -c "%U" /etc/services) == "sys" ]; then
+        OK "/etc/services 파일이 루트(또는 bin, sys)에 의해 소유됩니다."
+    fi
 
-OK "/etc/services 파일이 루트 또는 bin 또는 sys에 의해 소유되지 않으며 644 이하의 권한이 있습니다."
+# 파일 사용 권한 확인
+    if [ $(stat -c "%a" /etc/services) -gt 644 ]; then
+        OK "/etc/services 파일 사용 권한이 644보다 큽니다."
+    else
+        WARN "/etc/services 파일은 루트(또는 bin, sys)에 의해 소유되며 644개 이하의 권한이 있습니다."
+    fi
+    else
+OK "/etc/services 파일이 없습니다"
+fi
 
 
 cat $result

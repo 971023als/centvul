@@ -23,6 +23,7 @@ EOF
 
 BAR
 
+
 # 파일 소유권 확인
 if [ -e "/etc/syslog.conf" ]; then
   file_owner=$(stat -c %U /etc/syslog.conf)
