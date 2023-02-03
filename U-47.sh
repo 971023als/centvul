@@ -24,17 +24,16 @@ EOF
 BAR
 
 
-# Get the password maximum age
-max_age=$(grep -i "^password.*maximum.*age" /etc/login.defs | awk '{print $NF}')
+PASS_MAX_DAYS=$(grep "^PASS_MAX_DAYS" /etc/login.defs | awk '{print $2}')
 
-#convert the value in days to weeks
-max_age_weeks=$((max_age/7))
-
-# Check if the password maximum age is less than 12 weeks
-if [ "$max_age_weeks" -lt 12 ]; then
-  WARN "암호 최대 사용 기간이 12주 미만 max_age_weels: $max_age_weeks"
+if [ -z "$PASS_MAX_DAYS" ]; then
+  WARN "PASS_MAX_DAYS가 /etc/login.defs에 설정되어 있지 않습니다."
 else
-  OK "암호 최대 사용 기간이 12주 이상임 max_age_weels: $max_age_weeks"
+  if [ "$PASS_MAX_DAYS" -le 90 ]; then
+    OK "PASS_MAX_DAYS가 $PASS_MAX_DAYS로 설정되어 있으며, 이는 90보다 작거나 같습니다."
+  else
+    WARN "PASS_MAX_DAYS가 90보다 큰 $PASS_MAX_DAYS로 설정되었습니다."
+  fi
 fi
 
 
