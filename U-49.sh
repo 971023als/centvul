@@ -43,8 +43,6 @@ else
   OK "불필요한 계정을 찾을 수 없습니다."
 fi
 
-# If the script reaches this point, no unnecessary accounts were found
-OK "불필요한 계정을 찾을 수 없습니다."
 
 
  

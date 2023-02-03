@@ -27,7 +27,7 @@ EOF
 BAR
 
 # Define a list of necessary accounts
-necessary_accounts=("root" "Administrator" "adiosl" "mysql" "cubrid")
+necessary_accounts=("root" "bin" "daemon" "adm" "lp" "sync" "shutdown" "halt" "adiosl" "mysql" "cubrid")
 
 # Search for accounts that are not in the list of necessary accounts
 unnecessary_accounts=$(getent group Administrators | awk -F: '{split($4,a,","); for(i in a) {if (!(a[i] in necessary_accounts)) { print a[i] }}}')
