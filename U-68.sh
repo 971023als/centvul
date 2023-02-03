@@ -25,35 +25,35 @@ BAR
 
 
 
-# Check if log on messages are not set for the server
+## 로그온 메시지가 서버에 대해 설정
 if [ ! -f /etc/motd ]; then
     WARN "로그온 메시지가 서버에 대해 설정되지 않았습니다."
 else
     OK "로그온 메시지가 서버에 대해 설정되어 있습니다."
 fi
 
-# Check if log on messages are not set for Telnet service
+# 로그온 메시지가 텔넷 서비스에 대해 설정
 if [ ! -f /etc/issue.net ]; then
     WARN "로그온 메시지가 텔넷 서비스에 대해 설정되지 않았습니다."
 else
     OK "로그온 메시지가 텔넷 서비스에 대해 설정되어 있습니다."
 fi
 
-# Check if log on messages are not set for FTP service
-if [ ! -f /etc/ftpbanner ]; then
+# 로그온 메시지가 FTP 서비스에 대해 설정
+if [ ! -f /etc/vsftpd/vsftpd.conf ]; then
     WARN "로그온 메시지가 FTP 서비스에 대해 설정되지 않았습니다."
 else
     OK "로그온 메시지가 FTP 서비스에 대해 설정되어 있습니다."
 fi
 
-# Check if log on messages are not set for SMTP service
-if [ ! -f /etc/postfix/smtpd_banner ]; then
+# 로그온 메시지가 SMTP 서비스에 대해 설정
+if [ ! -f /etc/mail/sendmail.cf ]; then
     WARN "로그온 메시지가 SMTP 서비스에 대해 설정되지 않았습니다."
 else
     OK "로그온 메시지가 SMTP 서비스에 대해 설정되어 있습니다."
 fi
 
-# Check if log on messages are not set for DNS service
+# 로그온 메시지가 DNS 서비스에 대해 설정
 if [ ! -f /etc/named.conf ]; then
     WARN "로그온 메시지가 DNS 서비스에 대해 설정되지 않았습니다."
 else
