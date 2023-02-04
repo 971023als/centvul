@@ -24,33 +24,25 @@ EOF
 
 BAR
 
-
-# Check if named.conf file exists
-if [ -f /etc/named.conf ]; then
-    WARN "name.conf 파일 발견"
-    # Check if the allow-transfer option is set in the primary zone
-    primary_zone=$(grep -i 'type master' /etc/named.conf | awk '{print $2}')
-    if grep -q "allow-transfer" "$primary_zone"; then
-        WARN "allow-transfer 옵션이 기본 영역에서 설정됨"
-        # Check if the allow-transfer option is set to a specific IP address or IP range
-        transfer_ip=$(grep -i 'allow-transfer' "$primary_zone" | awk '{print $2}')
-        if [[ $transfer_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
-            OK "allow-transfer가 특정 IP 주소 또는 IP 범위로 설정됨: $transfer_ip"
-        else
-            WARN "allow-transfer가 특정 IP 주소 또는 IP 범위로 설정되지 않았습니다. 영역 전송이 안전하지 않습니다"
-        fi
-    else
-        WARN "allow-transfer 옵션이 기본 영역에서 설정되지 않았습니다. 영역 전송이 안전하지 않습니다"
-    fi
-    # Check if the secondary zone has the allow-transfer option
-    secondary_zone=$(grep -i 'type slave' /etc/named.conf | awk '{print $2}')
-    if grep -q "allow-transfer" "$secondary_zone"; then
-        WARN "allow-transfer 옵션이 보조 영역에 설정되어 있으며, 영역 전송이 안전하지 않습니다"
-    else
-        WARN "allow-transfer 옵션이 보조 영역에서 설정되지 않았습니다. 영역 전송이 허용되지 않습니다."
-    fi
+# 서비스가 실행 중인지 확인합니다
+if systemctl is-active --quiet named; then
+  WARN "DNS 서비스가 실행 중입니다"
 else
-    OK "name.conf 파일을 찾을 수 없습니다"
+  OK "DNS 서비스가 실행되고 있지 않습니다"
+fi
+
+# /etc/bind/name.conf에 전송 허용 설정이 있는지 확인하십시오
+if grep -q "allow-transfer" /etc/bind/named.conf; then
+  OK "allow-transfer 설정이 /etc/bind/name.conf에 있습니다"
+else
+  WARN "allow-transfer 설정이 /etc/bind/name.conf에 없습니다"
+fi
+
+# xfrnets 설정이 /etc/bind/name.conf에 있는지 확인합니다
+if grep -q "xfrnets" /etc/bind/named.conf; then
+  OK "xfrnets 설정이 /etc/bind/name.conf에 있습니다"
+else
+  WARN "xfrnets 설정이 /etc/bind/name.conf에 없습니다"
 fi
 
 
