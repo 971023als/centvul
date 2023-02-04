@@ -24,40 +24,18 @@ EOF
 
 BAR
 
-
-
-FILE=/etc/postfix/main.cf
-
- 
-
-ps -ef | grep sendmail | grep -v grep > $TMP1
-
- 
-
-if [ -z $TMP1 ] ; then
-
-OK SMTP서비스를 사용하지 않습니다.
-
- 
-
+# SMTP 서비스가 실행 중인지 확인합니다
+if ps aux | grep -q "smtp"; then
+  WARN "SMTP 서비스가 실행 중입니다"
 else
-
-grep -v '^ *#' /etc/postfix/main.cf | grep -i privacyoptions \ | grep restrictqrun >/dev/null 2>&1
-
- 
-
-if [ $? -eq 0 ] ; then
-
-OK 일반 사용자의 Sendmail 실행 방지가 설정 되어 있습니다.
-
-else
-
-WARN 일반 사용자의 Sendmail 실행 방지가 설정 되어 있지 않습니다.
-
-INFO $FILE 의 PrivacyOtions에 restrictqrun 옵션을 추가하십시오.
-
+  OK "SMTP 서비스가 실행되고 있지 않습니다"
 fi
 
+# /etc/mail/submit.cf에서 sendmail_enable 변수가 NO로 설정되어 있는지 확인합니다
+if grep -q "^O sendmail_enable=NO" /etc/mail/submit.cf; then
+  OK "Sendmail 실행에 대한 최종 사용자 보호가 활성화되었습니다"
+else
+  WARN "Sendmail 실행에 대한 최종 사용자 보호가 활성화되지 않았습니다"
 fi
 
 cat $result
