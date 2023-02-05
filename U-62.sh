@@ -26,22 +26,22 @@ BAR
 
 
 
-#Use the getent command to get all ftp account 
+# 명령을 사용하여 모든 ftp 계정 가져오기 
 ftp_users=$(getent passwd | grep -E "^ftp" | cut -d: -f1)
 
-# Iterate through each ftp account
+
+# 각 ftp 계정을 반복합니다
 for user in $ftp_users; do
-  # Use the getent command to get the shell of the ftp account
+  #  ftp 계정의 셸을 가져옵니다
   shell=$(getent passwd $user | cut -d: -f7)
 
-  # Check if the ftp account has a /bin/false shell
+  # ftp 계정에 /bin/false 셸이 있는지 확인합니다
   if [ "$shell" != "/bin/false" ]; then
     OK "ftp 계정 $user에 /bin/false 셸이 없습니다"
   else
     WARN "ftp 계정 $user에 /bin/false 셸이 있습니다."
   fi
 done
-
 
 
 cat $result
