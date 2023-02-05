@@ -60,8 +60,6 @@ for file in "${conf_files[@]}"; do
 done
 
 
-
-
 cat $result
 
 echo ; echo 
