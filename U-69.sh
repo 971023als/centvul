@@ -24,32 +24,31 @@ EOF
 
 BAR
 
-nfs_settings_file="/etc/exports"
+TMP1=`SCRIPTNAME`.log
 
+> $TMP1 
 
-# 파일이 있는지 확인하십시오
-if [ ! -f $nfs_settings_file ]; then
-  WARN "nfs_settings 파일이 존재하지 않습니다. 확인해주세요."
+filename="/etc/exports"
+
+if [ ! -e "$filename" ]; then
+  WARN "$message가 존재하지 않습니다"
 fi
 
-# 파일 소유자 확인
-if [[ $(stat -c '%U' $nfs_settings_file) = "root" ]]; then
-  OK "nfs_settings의 소유자는 루트입니다. 이것은 허용됩니다."
+owner=$(stat -c '%U' "$filename")
+permission=$(stat -c '%a' "$filename")
+
+if [ "$owner" != "root" ]; then
+  WARN "$filename의 소유자가 루트가 아닙니다."
 else
-  OK "nfs_settings의 소유자는 루트가 아닙니다. 이것은 허용되지 않습니다."
+    OK "$filename의 소유자가 루트가 맞습니다."
 fi
 
-# 파일에 대한 사용 권한 확인
-
-if [[ $(stat -c '%a' $nfs_settings_file) -gt 644 ]]; then
-  OK "nfs_settings에 대한 권한이 644보다 작습니다. 이것은 허용됩니다."
+if [ "$permission" -gt 644 ]; then
+  WARN "$filename의 권한이 644보다 큽니다."
 else
-  WARN "nfs_settings에 대한 권한이 644보다 큽니다. 이것은 허용되지 않습니다."
+    OK "$filename의 권한이 644 이하니다."
 fi
 
-sudo chown root /etc/exports
-
-sudo chmod 644 /etc/exports
 
 cat $result
 
