@@ -22,9 +22,6 @@ EOF
 
 BAR
 
- 
-
- 
 
 TMP1=`SCRIPTNAME`.log
 
@@ -57,7 +54,6 @@ OK '패스워드 최소 길이가 8자 이상으로 설정되어 있습니다.'
 INFO $INFO_FILE
 
 fi
-
  
 
 cat $result
