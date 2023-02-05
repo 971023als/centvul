@@ -16,9 +16,9 @@ CODE [U-69] NFS 설정파일 접근권한
 
 cat << EOF >> $result
 
-[양호]: NFS 접근제어 설정파일의 소유자가 root 이고, 권한이 644 이하인 경우
+[양호]: NFS 접근제어 설정파일의 소유자가 root 이고, 권한이 644 이하
 
-[취약]: NFS 접근제어 설정파일의 소유자가 root 가 아니거나, 권한이 644 이하가 아닌 경우
+[취약]: NFS 접근제어 설정파일의 소유자가 root 가 아니거나, 권한이 644 초과
 
 EOF
 
@@ -41,11 +41,15 @@ fi
 
 # 파일에 대한 사용 권한 확인
 
-if [[ $(stat -c '%a' $nfs_settings_file) -lt 644 ]]; then
+if [[ $(stat -c '%a' $nfs_settings_file) -gt 644 ]]; then
   OK "nfs_settings에 대한 권한이 644보다 작습니다. 이것은 허용됩니다."
 else
   WARN "nfs_settings에 대한 권한이 644보다 큽니다. 이것은 허용되지 않습니다."
 fi
+
+sudo chown root /etc/exports
+
+sudo chmod 644 /etc/exports
 
 cat $result
 
