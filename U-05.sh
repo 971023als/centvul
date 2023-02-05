@@ -26,21 +26,21 @@ EOF
 
 BAR
 
- 
-
 path="$PATH"
 
-# check if '.' is present in the beginning of the path
+# 경로 시작 부분에 '.'이 있는지 확인합니다
 if [[ "$path" =~ ^\. ]]; then
-    WARN "Dangerous  '.' 이 PATH 변수의 시작 부분에서 발견되었습니다."
+    WARN "PATH 변수의 시작 부분에서 '.' 발견됨."
+else
+    OK "PATH 변수의 시작 부분에서 '.' 발견 안 됨."
 fi
 
-# check if '.' is present in the middle of the path
+# 경로 중간에 '.'이 있는지 확인합니다
 if [[ "$path" =~ :\. ]]; then
-    WARN "Dangerous '.' 이 PATH 변수의 중간에서 발견되었습니다."
+    WARN "PATH 변수의 중간 부분에서 '.' 발견됨."
+else
+    OK "PATH 변수의 중간 부분에서 '.' 발견 안 됨."
 fi
-OK "PATH 변수는 안전합니다."
-
 
  
 
