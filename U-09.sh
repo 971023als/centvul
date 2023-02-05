@@ -30,23 +30,22 @@ BAR
 
  
 
-#  파일이 있는지 확인합니다
-if [ -f /etc/hosts ]; then
-  #  파일이 루트에 의해 소유되는지 확인합니다
-  if [ $(stat -c "%U" /etc/hosts) == "root" ]; then
-    OK "/etc/hosts 파일이 루트에 의해 소유됩니다."
-  else
-    WARN "/etc/hosts 파일이 루트에 의해 소유되지 않습니다."
-  fi
+file="/etc/hosts"
 
-  #  파일이 루트에 의해 소유되는지 확인합니다
-  if [ $(stat -c "%a" /etc/hosts) -lt 600 ]; then
-    OK "/etc/hosts 파일의 사용 권한이 600 미만입니다."
-  else
-    WARN "/etc/hosts 파일에 600 이상의 권한이 있습니다."
-  fi
+# 소유권 확인
+owner=$(stat -c '%U' "$file")
+if [ "$owner" != "root" ]; then
+  WARN "$file의 소유자가 루트가 아니라 $owner가 소유하고 있다."
 else
-  OK "/etc/hosts 파일을 찾을 수 없습니다."
+  OK "$file의 소유자는 루트입니다."
+fi
+
+# 권한 확인
+permissions=$(stat -c '%a' "$file")
+if [ "$permissions" -lt 600 ]; then
+  WARN "$file의 권한이 600 미만입니다. $permissions 설정."
+else
+  OK "$file의 권한은 최소 600 입니다."
 fi
  
 
