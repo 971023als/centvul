@@ -30,60 +30,41 @@ EOF
 BAR
 
 
-# Check the ownership of the /etc/hosts.equiv file
-file_owner=$(stat -c %U /etc/hosts.equiv)
-if [[ "$file_owner" != "root" && "$file_owner" != "$(whoami)" ]]; then
-  WARN "/etc/hosts.equiv가 루트 또는 $(whoami)에 의해 소유되지 않습니다."
+# /etc/hosts.equiv의 소유자를 확인하십시오
+if [ "$(stat -c '%U' /etc/hosts.equiv)" != "root" ]; then
+  WARN "/etc/messages.equiv 소유자가 루트가 아닙니다."
 else
-  OK "/etc/hosts.equiv가 루트 또는 $(whoami)에 의해 소유되어 있습니다."
+  OK "/etc/messages.equiv 소유자는 루트입니다."
 fi
 
-# Check the permissions of the /etc/hosts.equiv file
-file_perms=$(stat -c %a /etc/hosts.equiv)
-
-dec_perms=$(printf "%d" $file_perms)
-
-if [ "$dec_perms" -gt 600 ]; then
-  WARN "/etc/hosts.equiv에 잘못된 사용 권한이 있습니다. 600 이하여야 합니다."
+# /etc/hosts.equiv의 사용 권한을 확인합니다
+if [ "$(stat -c '%a' /etc/hosts.equiv)" -gt 600 ]; then
+  WARN "/etc/syslog.equiv 권한이 600보다 큽니다."
 else
-  OK "/etc/hosts.equiv에 올바른 사용 권한이 있습니다."
+  OK "/etc/syslog.equiv 권한이 600보다 작거나 같습니다."
 fi
 
-
-# Check if the /etc/hosts.equiv file contains the '+' setting
-if ! grep -q "+" /etc/hosts.equiv; then
-  WARN "/etc/hosts.equiv에 '+' 설정이 없습니다."
-
+# $HOME/.rhosts 소유자 확인
+if [ "$(stat -c '%U' $HOME/.rhosts)" != "root" ]; then
+  WARN "$HOME/.rhosts 소유자가 루트가 아닙니다."
 else
-  OK "/etc/hosts.equiv에 '+' 설정이 있습니다."
+  OK "$HOME/.rhosts 소유자는 루트입니다."
 fi
 
-# Check the ownership of the $HOME/.rhosts file
-file_owner=$(stat -c %U $HOME/.rhosts)
-if [[ "$file_owner" != "root" && "$file_owner" != "$(whoami)" ]]; then
-  WARN " $HOME/.rhosts가 루트 또는 $(whoami)에 의해 소유되지 않습니다." 
+# $HOME/.rhosts의 사용 권한 확인
+if [ "$(stat -c '%a' $HOME/.rhosts)" -gt 600 ]; then
+  WARN "$HOME/.rhosts 권한이 600보다 큽니다."
 else
-  OK "$HOME/.rhosts가 루트 또는 $(whoami)에 의해 소유된 상태입니다."
+  OK "$HOME/.rhosts 권한이 600보다 작거나 같습니다."
 fi
 
-# Check the permissions of the $HOME/.rhosts file
-files_perms=$(stat -c %a $HOME/.rhosts)
-
-decs_perms=$(printf "%d" $files_perms)
-
-if [ "$decs_perms" -gt 600 ]; then
-  WARN "$HOME/.rhosts에 잘못된 권한이 있습니다. 600 이하여야 합니다."
+# /etc/hosts.equiv 또는 $HOME/.rhosts에 '+' 설정이 있는지 확인하십시오
+if grep -q '^\+' /etc/hosts.equiv || grep -q '^\+' $HOME/.rhosts; then
+  WARN "File /etc/hosts.equiv 또는 $HOME/.rhosts에 '+' 설정이 있습니다."
 else
-  OK "$HOME/.rhosts에 올바른 권한이 있습니다."
+  OK "File /etc/hosts.equiv 및 $HOME/.rhosts에 '+' 설정이 없습니다."
 fi
 
-
-# Check if the $HOME/.rhosts file contains the '+' setting
-if ! grep -q "+" $HOME/.rhosts; then
-  WARN "$HOME/.rhosts에 '+' 설정이 없습니다"
-else
-  OK "$HOME/.rhosts에 '+' 설정이 있습니다."
-fi
 
 
 
