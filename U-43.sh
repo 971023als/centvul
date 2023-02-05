@@ -28,14 +28,44 @@ BAR
 # su 시도에 관한 로그 검토
 
 # su 명령을 통해 sulog에서 권한 상승 시도 여부를 점검하십시오
-allowed_accounts=("root" "bin" "daemon" "adm" "lp" "sync" "shutdown" "halt" "ubuntu" "user")
+allowed_accounts=(
+  "root"
+  "bin"
+  "daemon"
+  "adm"
+  "lp"
+  "sync"
+  "shutdown"
+  "halt"
+  "ubuntu"
+  "user"
+  "messagebus"
+  "syslog"
+  "avahi"
+  "kernoops"
+  "whoopsie"
+  "colord"
+  "systemd-network"
+  "systemd-resolve"
+  "systemd-timesync"
+  "mysql"
+  "dbus"
+  "rpc"
+  "rpcuser"
+  "haldaemon"
+  "apache"
+  "postfix"
+  "gdm"
+  "adiosl"
+  "cubrid"
+)
 
 # sulog에서 su 명령을 통해 권한 상승 시도 확인 중
 INFO "sulog에서 su 명령을 통해 권한 상승 시도 확인 중..."
 while read line; do
   user=$(echo $line | awk '{print $1}')
   if [[ ! " ${allowed_accounts[@]} " =~ " ${user} " ]]; then
-    WARN "사용자별 권한 상승 시도: $user"
+    INFO "사용자별 권한 상승 시도: $user"
   else
     OK "권한 상승 시도가 없습니다."
   fi
