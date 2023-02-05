@@ -24,9 +24,6 @@ EOF
 
 BAR
 
- 
-
-#!/bin/bash
 
 # Set the Apache2 Document Root directory to check
 dir_path=$(grep -E "^[ \t]*DocumentRoot[ \t]+" /etc/httpd/conf/httpd.conf | awk '{print $2}')
