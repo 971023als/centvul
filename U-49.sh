@@ -28,22 +28,48 @@ EOF
 
 BAR
 
+# 승인된 계정 목록
+approved_accounts=(
+  "root"
+  "bin"
+  "daemon"
+  "adm"
+  "lp"
+  "sync"
+  "shutdown"
+  "halt"
+  "ubuntu"
+  "user"
+  "messagebus"
+  "syslog"
+  "avahi"
+  "kernoops"
+  "whoopsie"
+  "colord"
+  "systemd-network"
+  "systemd-resolve"
+  "systemd-timesync"
+  "mysql"
+  "dbus"
+  "rpc"
+  "rpcuser"
+  "haldaemon"
+  "apache"
+  "postfix"
+  "gdm"
+  "adiosl"
+  "cubrid"
+)
 
-
-# Define a list of necessary accounts
-necessary_accounts=("root" "bin" "daemon" "adm" "lp" "sync" "shutdown" "halt" "adiosl" "mysql" "cubrid")
-
-# Search for accounts that are not in the list of necessary accounts
-unnecessary_accounts=$(awk -F: '{if (!($1 in necessary_accounts)) { print $1 }}' /etc/passwd)
-
-# Check if any unnecessary accounts were found
-if [ -n "$unnecessary_accounts" ]; then
-  WARN "불필요한 계정이 발견되었습니다. $insequired_accounts"
-else
-  OK "불필요한 계정을 찾을 수 없습니다."
-fi
-
-
+# 모든 계정에 반복
+for account in $(cut -d: -f1 /etc/passwd); do
+  # 계정이 승인 목록에 없는지 확인하십시오
+  if ! echo "${approved_accounts[@]}" | grep -qw "$account"; then
+    WARN "오류: 승인되지 않은 계정 '$account'이(가) 있습니다."
+  else
+    OK "모든 계정이 승인되었습니다."
+  fi
+done
 
  
 
