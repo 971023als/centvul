@@ -24,29 +24,16 @@ EOF
 
 BAR
 
- 
+# 활성 연결 가져오기
+connections=$(ss -t -a | awk '{print $5}')
 
-
-# Set the log file path
-log_file="/var/log/auth.log"
-
-# Check if the log file exists
-if [ ! -f $log_file ]; then
-    OK "인증 로그 파일을 찾을 수 없습니다"
+# 포트 22(SSH)를 사용하는 연결부가 있는지 점검하십시오
+if [[ $connections =~ :22 ]]; then
+  OK "SSH 프로토콜이 원격 연결에 사용되고 있습니다."
 else
-    # Use grep command to search for Telnet or FTP in the log file
-    telnet_count=$(grep -E "telnetd" $log_file | wc -l)
-    ftp_count=$(grep -E "ftpd" $log_file | wc -l)
-    if [ $telnet_count -ne 0 ]; then
-        INFO "Telnet 프로토콜 사용 $telnet_count times"
-    fi
-    if [ $ftp_count -ne 0 ]; then
-        INFO "FTP 프로토콜 사용 $ftp_count times"
-    fi
-    if [ $telnet_count -eq 0 ] && [ $ftp_count -eq 0 ]; then
-        WARN "안전하지 않은 프로토콜이 탐지되지 않음"
-    fi
+  WARN "SSH 프로토콜을 사용하는 연결이 검색되지 않음"
 fi
+
 
 
 cat $result
