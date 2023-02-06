@@ -33,19 +33,55 @@ BAR
  
 
 
-# Get a list of accounts that do not require login
-nologin_accounts=$(grep -E 'nologin$|false$' /etc/passwd | awk -F: '{print $1}')
+# 필수 계정 배열
+required_accounts=(
+  "root"
+  "bin"
+  "daemon"
+  "adm"
+  "lp"
+  "sync"
+  "shutdown"
+  "halt"
+  "ubuntu"
+  "user"
+  "messagebus"
+  "syslog"
+  "avahi"
+  "kernoops"
+  "whoopsie"
+  "colord"
+  "systemd-network"
+  "systemd-resolve"
+  "systemd-timesync"
+  "mysql"
+  "dbus"
+  "rpc"
+  "rpcuser"
+  "haldaemon"
+  "apache"
+  "postfix"
+  "gdm"
+  "adiosl"
+  "cubrid"
+)
 
-# Check if any accounts that do not require login were not granted a nologin shell
-for account in $nologin_accounts; do
-  shell=$(grep "^$account:" /etc/passwd | awk -F: '{print $NF}')
-  if [[ "$shell" != "/sbin/nologin" && "$shell" != "/bin/false" ]]; then
-    WARN "로그인이 필요 없는 계정 $account가 로그인 셸을 사용하지 않습니다. 현재 $shell 사용 중"
+# 모든 사용자를 순환시키다
+for user in $(cut -d: -f1 /etc/passwd); do
+  # 사용자용 셸 가져오기
+  shell=$(grep "^$user:" /etc/passwd | cut -d: -f7)
+  
+  # 사용자에게 /bin/false 셸이 있는지 확인
+  if [ "$shell" == "/bin/false" ]; then
+    # 사용자가 필수 계정 목록에 없는지 확인합니다
+    if ! [[ " ${required_accounts[@]} " =~ " ${user} " ]]; then
+      # 불필요한 사용자에 대한 오류 메시지 인쇄(알로그인 셸 없음)
+      WARN "사용자 $user 에 로그인 셸이 있지만 필수 계정 목록에 없습니다."
+    else
+      OK "/bin/false 셸이 있습니다."
+    fi
   fi
 done
-
-# If the script reaches this point, all accounts that do not require login are using a nologin shell
-OK "로그인이 필요하지 않은 모든 계정은 nologin 셸을 사용하고 있습니다."
 
 
  
