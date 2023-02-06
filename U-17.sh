@@ -32,17 +32,19 @@ BAR
 
 # /etc/hosts.equiv의 소유자를 확인하십시오
 if [ "$(stat -c '%U' /etc/hosts.equiv)" != "root" ]; then
-  WARN "/etc/messages.equiv 소유자가 루트가 아닙니다."
+  WARN "/etc/hosts.equiv 소유자가 루트가 아닙니다."
 else
-  OK "/etc/messages.equiv 소유자는 루트입니다."
+  OK "/etc/hosts.equiv 소유자는 루트입니다."
 fi
 
 # /etc/hosts.equiv의 사용 권한을 확인합니다
-if [ "$(stat -c '%a' /etc/hosts.equiv)" -gt 600 ]; then
+HOSTS_EQUIV_PERM=$(stat -c '%a' /etc/hosts.equiv)
+if [ "$HOSTS_EQUIV_PERM" -gt 600 ] 2>/dev/null; then
   WARN "/etc/syslog.equiv 권한이 600보다 큽니다."
 else
   OK "/etc/syslog.equiv 권한이 600보다 작거나 같습니다."
 fi
+
 
 # $HOME/.rhosts 소유자 확인
 if [ "$(stat -c '%U' $HOME/.rhosts)" != "root" ]; then
@@ -52,7 +54,8 @@ else
 fi
 
 # $HOME/.rhosts의 사용 권한 확인
-if [ "$(stat -c '%a' $HOME/.rhosts)" -gt 600 ]; then
+RHOSTS_PERM=$(stat -c '%a' $HOME/.rhosts)
+if [ "$RHOSTS_PERM" -gt 600 ] 2>/dev/null; then
   WARN "$HOME/.rhosts 권한이 600보다 큽니다."
 else
   OK "$HOME/.rhosts 권한이 600보다 작거나 같습니다."
