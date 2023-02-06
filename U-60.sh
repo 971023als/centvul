@@ -34,8 +34,6 @@ else
   WARN "SSH 프로토콜을 사용하는 연결이 검색되지 않음"
 fi
 
-
-
 cat $result
 
 echo ; echo 
