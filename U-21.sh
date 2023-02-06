@@ -31,17 +31,26 @@ EOF
 BAR
 
 
-if test -f /etc/xinetd.d/rlogin
-	then
-		if [ "`cat /etc/xinetd.d/rlogin | grep disable | awk '{print $3}'`" = yes ]
-			then
-				OK "rlogin 서비스가 설치되어 있으나 비활성화 되어 있습니다" 
-			else
-				WARN "rlogin 서비스가 설치되어 있고, 활성화 되어 있습니다" 
-		fi
-	else
-		OK "rlogin 서비스가 설치되어 있지 않습니다" 
+# rlogin 서비스가 사용하도록 설정되었는지 확인하십시오
+if [ "$(service is-enabled rlogin)" = "enabled" ]; then
+  WARN "rlogin 서비스가 활성화되었습니다"
+else
+  OK "rlogin 서비스가 비활성화되었습니다."
 fi
+
+# rsh 서비스가 사용하도록 설정되었는지 확인하십시오
+if [ "$(service is-enabled rsh)" = "enabled" ]; then
+  WARN "rsh 서비스가 활성화되었습니다"
+else
+  OK "rsh 서비스가 비활성화되었습니다"
+fi
+
+# exec 서비스가 활성화되었는지 확인하십시오
+if [ "$(service is-enabled exec)" = "enabled" ]; then
+  WARN "exec 서비스 사용"
+else
+  OK "exec 서비스가 비활성화됨"
+fi 
 
 
   
