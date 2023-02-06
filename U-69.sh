@@ -31,7 +31,7 @@ TMP1=`SCRIPTNAME`.log
 filename="/etc/exports"
 
 if [ ! -e "$filename" ]; then
-  WARN "$message가 존재하지 않습니다"
+  WARN "$filename 가 존재하지 않습니다"
 fi
 
 owner=$(stat -c '%U' "$filename")
@@ -43,11 +43,12 @@ else
     OK "$filename의 소유자가 루트가 맞습니다."
 fi
 
-if [ "$permission" -gt 644 ]; then
+if [ $(expr "$permission" + 0) -gt 644 ]; then
   WARN "$filename의 권한이 644보다 큽니다."
 else
     OK "$filename의 권한이 644 이하니다."
 fi
+
 
 
 cat $result
