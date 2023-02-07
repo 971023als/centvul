@@ -27,15 +27,22 @@ EOF
 
 BAR
 
-files=( "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.bash_aliases" )
+files=(".profile" ".kshrc" ".cshrc" ".bashrc" ".bash_profile" ".login" ".exrc" ".netrc")
 
 for file in "${files[@]}"; do
-  if [ -w "$file" ]; then
-    WARN "다른 사용자는 $file 에 대한 쓰기 권한을 가지고 있습니다."
+  owner=$(stat -c '%U' $file)
+  if [ "$owner" != "root" ] && [ "$owner" != "$USER" ]; then
+    WARN "$file 에 잘못된 소유자($owner), 예상 루트 또는 $USER 가 있습니다."
   else
-    OK "다른 사용자는 $file 에 대한 쓰기 권한이 없습니다."
+    OK "$file 에 잘못된 소유자($owner), 예상 루트 또는 $USER 가 있습니다." 
   fi
-done
+
+  permission=$(stat -c '%a' $file)
+  if [ "$permission" != "600" ] && [ "$permission" != "700" ]; then
+    WARN "$file 에 잘못된 권한($permission)이 있습니다. 600 또는 700이 예상됩니다."
+  else
+    OK "$file 에 잘못된 소유자($owner), 예상 루트 또는 $USER 가 있습니다." 
+  fi
 
 
 cat $result

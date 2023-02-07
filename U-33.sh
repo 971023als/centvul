@@ -23,14 +23,17 @@ EOF
 
 BAR
 
+# ps-ef | grep 명명된 명령의 출력을 변수에 저장합니다
+result=$(ps -ef | grep named)
 
-DS=`dig +short @168.126.63.1 porttest.dns-oarc.net TXT | awk -Fis '{print $2}' | awk -F: {'print $1'} | sed '1d' | awk '{print $1}'`
-
-if [ $DS=GOOD -o GREAT ]
-	then
-		OK " DNS 보안 패치가 최신 버전입니다" 
-	else
-		WARN " DNS 보안 패치가 구 버전입니다" 
+# 결과가 비어 있지 않은지 확인하십시오
+if [ -n "$result" ]; then
+  WARN "DNS 서비스가 실행 중"
+  # 결과에서 BIND 버전 추출
+  bind_version=$(named -v | awk '{print $3}')
+  INFO "BIND 버전: $bind_version"
+else
+  OK "DNS 서비스가 실행되고 있지 않습니다."
 fi
 
 
