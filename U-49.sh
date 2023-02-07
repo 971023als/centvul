@@ -9,9 +9,6 @@
 TMP1=`SCRIPTNAME`.log
 
 > $TMP1
-
- 
-
  
 
 BAR
@@ -27,9 +24,21 @@ cat << EOF >> $result
 EOF
 
 BAR
+# /etc/passwd에서 "lp|uucp|nuucp"와 일치하는 사용자 목록을 가져옵니다
+user_list=$(cat /etc/passwd | egrep "lp|uucp|nuucp" | awk -F: '{print $1}')
 
-# 승인된 계정 목록
-approved_accounts=(
+# 사용자 목록을 순환
+for user in $user_list; do
+  # 사용자가 로그인할 수 있는지 확인합니다
+  if ! grep -q "^$user:" /etc/shadow; then
+    OK "사용자: $user 에 대해 로그인할 수 없습니다."
+  else
+    WARN "사용자: $user 에 대해 로그인 가능합니다."
+  fi
+done
+
+# 기본 계정 목록 지정
+default_accounts=(
   "root"
   "bin"
   "daemon"
@@ -59,19 +68,52 @@ approved_accounts=(
   "gdm"
   "adiosl"
   "cubrid"
+  "sys"
+  "games"
+  "man"
+  "news"
+  "uucp"
+  "proxy"
+  "www-data"
+  "backup"
+  "list"
+  "irc"
+  "gnarts"
+  "nobody"
+  "_apt"
+  "tss"
+  "uuidd"
+  "tcpdump"
+  "avahi-autoipad"
+  "usbmux"
+  "rtkit"
+  "dnsmasq"
+  "cups-pk-helper"
+  "speech-dispatcher"
+  "saned"
+  "nm-openvpn"
+  "hplip"
+  "geoclue"
+  "pulse"
+  "gnone-initial-setup"
+  "systmd-coredump"
+  "fwupd-refresh"
 )
+# 셸이 bash로 설정된 사용자 목록을 /etc/passwd에서 가져옵니다
+user_list=$(cat /etc/passwd | grep bash | awk -F: '{print $1}')
 
-# 모든 계정에 반복
-for account in $(cut -d: -f1 /etc/passwd); do
-  # 계정이 승인 목록에 없는지 확인하십시오
-  if ! echo "${approved_accounts[@]}" | grep -qw "$account"; then
-    WARN "오류: 승인되지 않은 계정 '$account'이(가) 있습니다."
+# 사용자 목록을 순환
+for user in $user_list; do
+  # Check if the user is a default account
+  if echo "$default_accounts" | grep -qw "$user"; then
+    # 아무것도 하지마
+    :
   else
-    OK "모든 계정이 승인되었습니다."
+    WARN "기본이 아닌 계정 발견: $user"
   fi
 done
 
- 
+OK "모든 계정은 기본 계정입니다." 
 
  
 
