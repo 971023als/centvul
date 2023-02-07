@@ -24,15 +24,12 @@ EOF
 
 BAR
 
- 
+status=$(svcs -a | grep "autofs" | awk '{print $1}')
 
-AM=`ps -ef | grep 'automount\|autofs' | sed '$d'`
-
-if [ "$AM" ]; then
-		WARN "NFS 서비스가 동작 중입니다." 
-
+if [ "$status" = "online" ]; then
+  WARN "Automount 서비스가 실행 중입니다"
 else
-	OK "NFS 서비스가 동작 중이지 않습니다." 
+  OK "Automount 서비스가 실행되고 있지 않습니다."
 fi
 
 

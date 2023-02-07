@@ -31,7 +31,7 @@ FILENAME2=/etc/passwd
 
 
 if [ -f $FILENAME ] ; then
-	INFO "쉐도우 파일이 존재합니다."
+	OK "쉐도우 파일이 존재합니다."
 	CHECK=$(cat $FILENAME2 | awk -F: '{print $2}' | grep -v 'x')
 	if [ -z $CHECK ] ; then
 		OK "쉐도우 패스워드를 사용하거나, 패스워드를 암호화하여 저장하는 경우"

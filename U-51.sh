@@ -31,19 +31,20 @@ EOF
 BAR
 
 
-# Define a list of necessary groups
-necessary_groups=("root" "sudo" "sys" "adm" "wheel" "daemon")
+declare -a necessary_groups=("root" "sudo" "sys" "adm" "wheel" 
+"daemon" "bin" "lp" "dbus" "rpc" "rpcuser" "haldaemon" 
+"apache" "postfix" "gdm" "adiosl" "mysql" "cubrid"
+ "messagebus" "syslog" "avahi" "whoopsie"
+"colord" "systemd-network" "systemd-resolve"
+"systemd-timesync" "mysql" "sync" "user")
 
-# Search for groups that are not in the list of necessary groups
-unnecessary_groups=$(getent group | awk -F: '{if (!($1 in necessary_groups)) { print $1 } }')
+all_groups=$(getent group | cut -d: -f1)
 
-# Check if any unnecessary groups were found
-if [ -n "$unnecessary_groups" ]; then
-  WARN "불필요한 그룹이 발견되었습니다. $unequired_groups"
-fi
-
-# If the script reaches this point, no unnecessary groups were found
-OK "불필요한 그룹을 찾을 수 없습니다."
+for group in $all_groups; do
+  if ! [[ " ${necessary_groups[@]} " =~ " ${group} " ]]; then
+    INFO "Group ${group}은(는) 시스템 관리 또는 운영에 필요하지 않으므로 검토해야 합니다."
+  fi
+done
 
 
 

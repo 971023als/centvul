@@ -25,23 +25,23 @@ EOF
 BAR
 
 
+# Read the /etc/mail/sendmail.cf file
+while read line; do
+  # Check if the line starts with "O PrivacyOptions="
+  if [[ $line == O\ PrivacyOptions=* ]]; then
+    options=${line#O PrivacyOptions=}
 
-# Path to Postfix main configuration file
-CONF_FILE=/etc/postfix/main.cf
+    # Check if the options contain "noexpn", "novrfy", and "goaway"
+    if [[ $options == *noexpn* ]] && [[ $options == *novrfy* ]] && [[ $options == *goaway* ]]; then
+      echo "PrivacyOptions are set correctly: noexpn, novrfy, and goaway"
+    else
+      echo "PrivacyOptions are not set correctly. Required options: noexpn, novrfy, and goaway"
+    fi
 
-# Check if 'smtpd_recipient_restrictions' is present in configuration file
-if grep -q "smtpd_recipient_restrictions" "$CONF_FILE"; then
-  # Check if 'noexpn' and 'novrfy' are not present
-  if ! grep -q "noexpn" "$CONF_FILE" && ! grep -q "novrfy" "$CONF_FILE"; then
-    WARN "noexpn 및 novrfy 옵션이 설정되지 않았습니다."
-  else
-    OK "noexpn 및 novrfy 옵션이 설정되었습니다."
+    # We found the line, no need to continue reading the file
+    break
   fi
-else
-  OK "구성 파일에서 esxd_disclusions를 찾을 수 없습니다."
-fi
-
-
+done < /etc/mail/sendmail.cf
 
     
 
