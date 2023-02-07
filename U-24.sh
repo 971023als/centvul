@@ -24,12 +24,19 @@ EOF
 
 BAR
 
+NFS_DAEMON="nfsd"
+
 result=$(ps -ef | egrep "nfs|statd|lockd")
-if [ "$result" != "" ]; then
-    WARN "NFS 관련 프로세스 발견: $result"
+if [ -z "$result" ]; then
+    INFO "NFS 서비스 데몬을 찾을 수 없습니다."
 else
-    OK "NFS 관련 프로세스를 찾을 수 없습니다."
+    if echo "$result" | grep -q "$NFS_DAEMON"; then
+        WARN "NFS 서비스 데몬이 실행 중입니다."
+    else
+        OK "NFS 서비스 데몬이 실행되고 있지 않습니다."
+    fi
 fi
+
 
  
 cat $result
