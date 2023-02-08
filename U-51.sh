@@ -38,11 +38,14 @@ declare -a necessary_groups=("root" "sudo" "sys" "adm" "wheel"
 "colord" "systemd-network" "systemd-resolve"
 "systemd-timesync" "mysql" "sync" "user")
 
+
 all_groups=$(getent group | cut -d: -f1)
 
 for group in $all_groups; do
   if ! [[ " ${necessary_groups[@]} " =~ " ${group} " ]]; then
     INFO "Group ${group}은(는) 시스템 관리 또는 운영에 필요하지 않으므로 검토해야 합니다."
+  else
+    OK "Group ${group}은(는) 시스템 관리 또는 운영에 필요합니다."
   fi
 done
 
