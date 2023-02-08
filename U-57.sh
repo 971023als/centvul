@@ -2,11 +2,7 @@
 
  
 
-. function.sh
-
-TMP1=`SCRIPTNAME`.log
-
-> $TMP1  
+. function.sh 
 
  
 
