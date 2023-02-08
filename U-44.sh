@@ -1,14 +1,6 @@
 #!/bin/bash
 
- 
-
 . function.sh
-
-TMP1=`SCRIPTNAME`.log
-
-> $TMP1
-
- 
 
 BAR
 
@@ -36,7 +28,6 @@ else
    OK "루트 계정과 동일한 UID를 가진 계정이 없습니다."
    sudo rm $TMP1
 fi
-
 
 cat $result
 
