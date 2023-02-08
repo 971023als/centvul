@@ -59,7 +59,6 @@ allowed_accounts=(
   "adiosl"
   "cubrid"
 )
-
 # sulog에서 su 명령을 통해 권한 상승 시도 확인 중
 
 INFO "sulog에서 su 명령을 통해 권한 상승 시도 확인 중..."
