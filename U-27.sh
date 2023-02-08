@@ -1,10 +1,6 @@
 #!/bin/bash
 
- 
-
 . function.sh
-
- 
 
 BAR
 
@@ -30,7 +26,6 @@ for service in "${services[@]}"; do
     OK "$service 서비스가 활성화되지 않았습니다."
   fi
 done
-
 
 cat $result
 
