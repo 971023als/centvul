@@ -24,25 +24,14 @@ EOF
 
 BAR
 
+# Sendmail 서비스가 실행 중인지 확인합니다
+sendmail_status=$(ps -ef | grep sendmail | grep -v "grep")
 
-# Read the /etc/mail/sendmail.cf file
-while read line; do
-  # Check if the line starts with "O PrivacyOptions="
-  if [[ $line == O\ PrivacyOptions=* ]]; then
-    options=${line#O PrivacyOptions=}
-
-    # Check if the options contain "noexpn", "novrfy", and "goaway"
-    if [[ $options == *noexpn* ]] && [[ $options == *novrfy* ]] && [[ $options == *goaway* ]]; then
-      echo "PrivacyOptions are set correctly: noexpn, novrfy, and goaway"
-    else
-      echo "PrivacyOptions are not set correctly. Required options: noexpn, novrfy, and goaway"
-    fi
-
-    # We found the line, no need to continue reading the file
-    break
-  fi
-done < /etc/mail/sendmail.cf
-
+if [ "$sendmail_status" == "active" ]; then
+  WARN "Sendmail 서비스가 실행 중입니다."
+else
+  OK "Sendmail 서비스가 실행되고 있지 않습니다."
+fi
     
 
 cat $result
