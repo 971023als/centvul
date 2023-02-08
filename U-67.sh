@@ -38,8 +38,8 @@ else
     else
       OK "Community name $community 는 허용되고 있습니다." 
     fi
+  done
 fi
-done
 
 cat $result
 
