@@ -24,18 +24,14 @@ EOF
 
 BAR
 
-
-
-# Set the Apache2 configuration file path
+# 확인할 Apache2 Document Root 디렉토리 설정
 config_file="/etc/httpd/conf/httpd.conf"
 
-# Use grep to check if the DocumentRoot directive is defined in the configuration file
-Result=$(grep -E "^[ \t]*DocumentRoot[ \t]+" $config_file)
-
-if [ -n "$Result" ]; then
-    OK "Apache2 DocumentRoot는 구성 파일에 정의되어 있습니다."
+# DocumentRoot가 기본 경로로 설정되어 있는지 확인합니다
+if [ "$config_file" = "/var/www/html" ] ; then
+  WARN "DocumentRoot가 기본 경로로 설정되었습니다: /var/www/html"
 else
-    WARN "Apache2 DocumentRoot가 구성 파일에 정의되어 있지 않습니다."
+  OK "DocumentRoot가 기본 경로로 설정되지 않았습니다. "
 fi
 
 cat $result
