@@ -1,14 +1,10 @@
 #!/bin/bash
 
- 
-
 . function.sh
 
 TMP1=`SCRIPTNAME`.log
 
 > $TMP1 
-
- 
 
 BAR
 
@@ -33,7 +29,6 @@ if [ -n "$NFS" ]; then
 else
   OK "NFS 서비스 데몬이 실행되고 있지 않습니다."
 fi
-
  
 cat $result
 
