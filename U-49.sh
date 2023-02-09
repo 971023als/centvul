@@ -24,18 +24,16 @@ cat << EOF >> $result
 EOF
 
 BAR
-# /etc/passwd에서 "lp|uucp|nuucp"와 일치하는 사용자 목록을 가져옵니다
-user_list=$(cat /etc/passwd | egrep "lp|uucp|nuucp" | awk -F: '{print $1}')
 
-# 사용자 목록을 순환
-for user in $user_list; do
-  # 사용자가 로그인할 수 있는지 확인합니다
-  if ! grep -q "^$user:" /etc/shadow; then
-    OK "사용자: $user 에 대해 로그인할 수 없습니다."
-  else
-    WARN "사용자: $user 에 대해 로그인 가능합니다."
-  fi
-done
+results=$(cat /etc/passwd | grep "lp\|uucp\|nuucp")
+
+if [ -n "$results" ]; then
+  WARN "사용자 이름 lp, uucp 또는 nuucp를 가진 하나 이상의 시스템 계정이 있습니다."
+  INFO "이러한 계정은 시스템 구성에 따라 로그인할 수 있습니다."
+else
+  OK "사용자 이름 lp, uucp 또는 nuucp를 가진 시스템 계정이 없습니다."
+fi
+
 
 # 기본 계정 목록 지정
 default_accounts=(
@@ -99,6 +97,7 @@ default_accounts=(
   "cuvrid"
   "user"
 )
+
 # 셸이 bash로 설정된 사용자 목록을 /etc/passwd에서 가져옵니다
 user_list=$(cat /etc/passwd | grep bash | awk -F: '{print $1}')
 
@@ -106,10 +105,8 @@ user_list=$(cat /etc/passwd | grep bash | awk -F: '{print $1}')
 for user in $user_list; do
   # Check if the user is a default account
   if echo "$default_accounts" | grep -qw "$user"; then
-    # 아무것도 하지마
-    :
   else
-    WARN "기본이 아닌 계정 발견: $user"
+    INFO "용도가 의심되는 계정 발견: $user"
   fi
 done
 
