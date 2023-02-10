@@ -25,9 +25,9 @@ BAR
 
 # /etc/profile에서 UMASK가 022로 설정되어 있는지 확인합니다
 if grep -q "umask 022" /etc/profile; then
-  OK "UMASK가 /etc/profile에서 022로 설정됨"
+  OK "umask가 /etc/profile에서 022로 설정됨"
 else
-  WARN "UMASK가 /etc/profile에서 022로 설정되지 않음"
+  WARN "umask가 /etc/profile에서 022로 설정되지 않음"
 fi
 
 # /etc/profile에서  export umask 로 설정되어 있는지 확인합니다
