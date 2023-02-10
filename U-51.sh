@@ -50,7 +50,7 @@ declare -a necessary_groups=("root" "sudo" "sys" "adm" "wheel"
 "sshd" "slocate" "stapusr"
 "stapsys" "tcpdump" "named"
 "www-data" "sasl" "nogroup"
-"ssh")
+"ssh" "nfsnobody" "stapdev")
 
 
 all_groups=$(getent group | cut -d: -f1)
