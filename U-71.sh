@@ -24,24 +24,26 @@ EOF
 
 BAR
 
-# Define the Apache configuration file path
-CONF_FILE="/etc/httpd/conf/httpd.conf"
+filename="/etc/httpd/conf/httpd.conf"
 
-# Check if ServerTokens is set to Prod
-if grep -q "ServerTokens Prod" $CONF_FILE; then
-    OK "Server 토큰이 Prod로 설정됨"
-else
-    WARN "Server 토큰이 Prod로 설정되지 않음"
+if [ ! -e "$filename" ]; then
+  WARN "$filename 가 존재하지 않습니다"
 fi
 
-# Check if ServerSignature is set to Off
-if grep -q "ServerSignature Off" $CONF_FILE; then
-    OK "Server Signature가 off으로 설정됨"
+server_tokens=$(grep -i 'ServerTokens' "$filename" | awk '{print $2}')
+server_signature=$(grep -i 'ServerSignature' "$filename" | awk '{print $2}')
+
+if [ "$server_tokens" == "Prod" ]; then
+  OK "서버 토큰 설정이 Prod로 설정되었습니다."
 else
-    WARN "Server Signature가 Off로 설정되지 않음"
+  WARN "서버 토큰 설정이 Prod로 설정되지 않았습니다."
 fi
 
-
+if [ "$server_signature" == "Off" ]; then
+  OK "Server Signature 설정이 Off로 설정되었습니다."
+else
+  WARN "Server Signature 설정이 Off로 설정되지 않았습니다."
+fi
 
 cat $result
 
