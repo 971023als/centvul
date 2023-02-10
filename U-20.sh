@@ -26,6 +26,8 @@ EOF
 
 BAR
 
+ftp_account="ftp"
+
 if cat /etc/passwd | grep -q "$ftp_account"; then
   WARN "FTP 계정이 /etc/passwd 파일에 있습니다."
 else

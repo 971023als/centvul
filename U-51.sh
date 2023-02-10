@@ -48,7 +48,9 @@ declare -a necessary_groups=("root" "sudo" "sys" "adm" "wheel"
 "ntp" "saslauth" "postdrop"
 "pulse" "pulse-access" "fuse" 
 "sshd" "slocate" "stapusr"
-"stapsys" "tcpdump" "named")
+"stapsys" "tcpdump" "named"
+"www-data" "sasl" "nogroup"
+"ssh")
 
 
 all_groups=$(getent group | cut -d: -f1)
