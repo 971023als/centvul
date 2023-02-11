@@ -23,6 +23,7 @@ BAR
 
 # login.defs 파일에서 PASS_MIN_LEN 값을 가져옵니다
 pass_min_len=$(grep -E "^PASS_MIN_LEN" /etc/login.defs | awk '{print $2}')
+
 min=8
 
 # PASS_MIN_LEN 값이 주석 처리되었는지 확인합니다
