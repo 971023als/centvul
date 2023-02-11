@@ -29,7 +29,7 @@ do
   IFS=':' read -r -a fields <<< "$line"
 
   # 홈 디렉토리에서 SUID 또는 SGID 권한이 있는 파일 확인
-  output=$(find -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls -al {} \;)
+  output=$(find / -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls -al {} \;)
 
   # 출력을 배열로 분할
   arr=($output)
