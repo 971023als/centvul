@@ -21,7 +21,7 @@ EOF
 
 BAR
 
-# login.defs 파일에서 PASS_MIN_LEN 값을 가져옵니다
+# login.defs 파일에서 PASS_MAX_DAYS 값을 가져옵니다
 pass_min_len=$(grep -E "^PASS_MIN_LEN" /etc/login.defs | awk '{print $2}')
 
 min=8
