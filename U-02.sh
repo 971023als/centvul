@@ -28,9 +28,9 @@ min=8
 
 
 if [ "$pass_min_len" -le "$min" ]; then
-  WARN "8 글자 미만의 패스워드가 설정."
-else
   OK "8 글자 이상의 패스워드가 설정."
+else
+  WARN "8 글자 미만의 패스워드가 설정."
 fi
 
 
