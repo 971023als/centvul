@@ -31,9 +31,9 @@ if grep -q "^#PASS_MIN_LEN" /etc/login.defs; then
   INFO "PASS_MIN_LEN가 주석 처리되었습니다."
 else
     if [ "$pass_min_len" -le "$min" ]; then
-      WARN "PASS_MAX_DAYS가 $min 보다 작거나 같은 $pass_min_len 로 설정되었습니다."
+      WARN "8 글자 미만의 패스워드가 설정."
     else
-      OK "PASS_MAX_DAYS가 $min 보다 큰 $pass_min_len 로 설정되었습니다."
+      OK "8 글자 이상의 패스워드가 설정."
     fi
 fi
 
