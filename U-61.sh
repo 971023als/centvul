@@ -26,7 +26,7 @@ BAR
 
 
 # FTP 서비스 조회
-hidden_files=$(ps -ef | grep vsftpd | grep -v grep >/dev/null 2>&1)
+hidden_files=$(ps -ef | grep vsftpd | grep -v grep)
 
 if [ $hidden_files -eq 0 ] ; then
 
