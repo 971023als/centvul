@@ -35,7 +35,6 @@ do
   fi
 done
 
-
 cat $result
 
 echo ; echo 
