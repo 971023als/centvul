@@ -1,15 +1,11 @@
 #!/bin/bash
 
- 
-
 . function.sh
 
- 
 TMP1=`SCRIPTNAME`.log
 
 > $TMP1  
  
-
 BAR
 
 CODE [U-58] 홈 디렉터리로 지정한 디렉터리의 존재 관리 
@@ -23,8 +19,6 @@ cat << EOF >> $result
 EOF
 
 BAR
-
-
 
 # Get a list of all accounts
 accounts=`cat /etc/passwd | cut -d: -f1`

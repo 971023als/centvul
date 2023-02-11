@@ -25,21 +25,18 @@ EOF
 BAR
 
 
-ps -ef | grep vsftpd | grep -v grep >/dev/null 2>&1
+# FTP 서비스 조회
+hidden_files=$(ps -ef | grep vsftpd | grep -v grep >/dev/null 2>&1)
 
- 
+if [ $hidden_files -eq 0 ] ; then
 
-if [ $? -eq 0 ] ; then
-
-WARN FTP 서비스를 사용하고 있습니다.
+    WARN FTP 서비스를 사용하고 있습니다.
 
 else
 
-OK FTP 서비스를 사용하고 있지 않습니다. 
+    OK FTP 서비스를 사용하고 있지 않습니다. 
 
 fi
-
-
 
 cat $result
 

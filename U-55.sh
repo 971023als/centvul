@@ -24,7 +24,6 @@ EOF
 
 BAR
 
-
 # Check if the file exists
 if [ ! -f /etc/hosts.lpd ]; then
   INFO "hosts.lpd 파일이 없습니다. 확인해주세요."
