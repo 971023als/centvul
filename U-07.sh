@@ -24,14 +24,17 @@ BAR
 # check if the file is owned by root
 if [ $(stat -c "%U" /etc/passwd) != "root" ]; then
     WARN "/etc/passwd 파일이 루트에 의해 소유되지 않습니다."
+else
+    OK "/etc/passwd 파일이 루트에 의해 소유됩니다."
+fi
 fi
 
 # check if the file permissions are less than 644
 if [ $(stat -c "%a" /etc/passwd) -lt 644 ]; then
-    WARN "/etc/passwd 파일의 권한이 644보다 작습니다."
+    WARN "/etc/passwd 파일에 644 미만의 권한이 있습니다."
+else
+    OK "/etc/passwd 파일에 644 이상의 권한이 있습니다."
 fi
-
-OK "/etc/passwd 파일은 루트에 의해 소유되며 644 이상의 권한을 가집니다."
 
 
 cat $result
