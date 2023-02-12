@@ -35,19 +35,20 @@ hidden_dirs=$(find "$adiosdir" -type d -name ".*" ! -name ".*.swp")
 # Check if any unwanted or suspicious files or directories exist
 for file in $hidden_files; do
   if [[ $(basename $file) =~ "unwanted-file" ]]; then
-    WARN "원하지 않는 파일 발견: $file"
+    WARN "원하지 않는 파일: $file"
   else
-    OK "원하지 않는 파일를 찾을 수 없습니다."
+    OK "정상적인 파일: $file"
   fi
 done
 
 for dir in $hidden_dirs; do
   if [[ $(basename $dir) =~ "suspicious-dir" ]]; then
-    WARN "의심스러운 디렉토리를 찾았습니다: $dir"
+    WARN "의심스러운 디렉토리: $dir"
   else
-    OK "의심스러운 디렉터리를 찾을 수 없습니다."
+    OK "정상적인 디렉터리: $dir"
   fi
 done
+
 
 cubridir="/home/cubrid/"
 
@@ -58,17 +59,17 @@ hidden_dir=$(find "$cubridir" -type d -name ".*" ! -name ".*.swp")
 # Check if any unwanted or suspicious files or directories exist
 for file in $hidden_file; do
   if [[ $(basename $file) =~ "unwanted-file" ]]; then
-    WARN "원하지 않는 파일 발견: $file"
+    WARN "원하지 않는 파일: $file"
   else
-    OK "원하지 않는 파일를 찾을 수 없습니다."
+    OK "정상적인 파일: $file"
   fi
 done
 
 for dir in $hidden_dir; do
   if [[ $(basename $dir) =~ "suspicious-dir" ]]; then
-    WARN "의심스러운 디렉토리를 찾았습니다: $dir"
+    WARN "의심스러운 디렉토리: $dir"
   else
-    OK "의심스러운 디렉터리를 찾을 수 없습니다."
+    OK "정상적인 디렉터리: $dir"
   fi
 done
 
