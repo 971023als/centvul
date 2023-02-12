@@ -1,7 +1,5 @@
 #!/bin/bash
 
- 
-
 . function.sh
 
 TMP1=`SCRIPTNAME`.log
@@ -44,8 +42,6 @@ if [ $dec_perms -lt 640 ]; then
 else
   OK "/etc/rsyslog.conf 존재하지 않음"
 fi
-
-
 
 cat $result
 

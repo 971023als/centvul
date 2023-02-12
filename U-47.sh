@@ -45,7 +45,6 @@ else
     INFO "PASS_MAX_DAYS 값이 올바른 정수가 아닙니다."
   fi
 fi
- 
 
 cat $result
 

@@ -24,8 +24,6 @@ EOF
 
 BAR
 
-
-
 # Check if the at command is available
 if command -v at >/dev/null; then
     INFO "at 명령을 사용할 수 있습니다."

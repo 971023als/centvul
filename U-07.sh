@@ -21,7 +21,6 @@ EOF
 BAR
 
 
-
 # check if the file is owned by root
 if [ $(stat -c "%U" /etc/passwd) != "root" ]; then
     WARN "/etc/passwd 파일이 루트에 의해 소유되지 않습니다."

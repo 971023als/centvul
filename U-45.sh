@@ -57,8 +57,6 @@ else
   OK "휠 그룹의 어떤 계정도 su 명령을 사용할 수 있습니다."
 fi
 
-
-
  
 
 cat $result

@@ -27,7 +27,6 @@ cat << EOF >> $result
 EOF
 
 BAR
-
  
 
 file="/etc/hosts"

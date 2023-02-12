@@ -4,17 +4,8 @@
 
 . function.sh
 
- 
-
 TMP1=`SCRIPTNAME`.log
 
-TMP2=/tmp/tmp1
-
-TMP3=/tmp/tmp2
-
-TMP4=/tmp/tmp3
-
- 
 
 BAR
 

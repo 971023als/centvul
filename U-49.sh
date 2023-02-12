@@ -101,7 +101,6 @@ for user in $user_list; do
   fi
 done
 
- 
 
 cat $result
 
