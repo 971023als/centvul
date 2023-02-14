@@ -1,9 +1,6 @@
 #!/bin/bash
 
- 
-
 . function.sh
-
  
 
 TMP1=`SCRIPTNAME`.log
